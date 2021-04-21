@@ -15,16 +15,16 @@ from ._base import Operation
 def _docstring(klass) -> str:
     klass.__doc__ = """Cast `torch.Tensor` instance to {cast}.
 
-.. note::
+!!!note
 
-    **IMPORTANT**: Only `torch.Tensor` can be passed as `memory_format`
+    __IMPORTANT__: Only `torch.Tensor` can be passed as `memory_format`
     is specified during casting.
 
 
-Returns
--------
-{cast}
-    Casted `data`
+Returns:
+
+    {cast}
+        Casted `data`
 
 """.format(
         cast=klass.__name__
@@ -34,10 +34,9 @@ Returns
 
 def _forward_docstring(function):
     function.__doc__ = """
-    Arguments
-    ---------
-    data: torch.Tensor
-        Tensor to be casted
+    Arguments:
+        data:
+            Tensor to be casted
     """
     return function
 
@@ -155,11 +154,10 @@ class MKLDNN(Operation):
 class Sparse(Operation):
     """Cast `torch.Tensor` to sparse format.
 
-    Parameters
-    ----------
-    sparse_dims: int, optional
-        The number of sparse dimensions to include in the new sparse tensor.
-        Default: `None`.
+    Arguments:
+        sparse_dims:
+            The number of sparse dimensions to include in the new sparse tensor.
+            Default: `None`.
 
     """
 
@@ -176,10 +174,9 @@ class Sparse(Operation):
 class As(Operation):
     """Cast `torch.Tensor` to the same type as `other`.
 
-    Parameters
-    ----------
-    other: torch.Tensor
-        Tensor according to which incoming tensor will be casted.
+    Arguments:
+        other: 
+            Tensor according to which incoming tensor will be casted.
 
     """
 

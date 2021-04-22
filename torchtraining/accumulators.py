@@ -1,13 +1,13 @@
 """Accumulate results from `iterations` or `epochs`
 
-.. note::
+!!!note
 
-    **IMPORTANT**: This module is one of core features
+    __IMPORTANT__: This module is one of core features
     so be sure to understand how it works.
 
-.. note::
+!!!note
 
-    **IMPORTANT**: Accumulators should be applied to `iteration`
+    __IMPORTANT__: Accumulators should be applied to `iteration`
     objects. This way those can efficiently accumulate value later passed
     to other operations.
 
@@ -26,9 +26,9 @@ Code above will accumulate `accuracy` from each step and after `iteration`
 ends it will be send to `tt.Split`.
 
 
-.. note::
+!!!note
 
-    **IMPORTANT**: If users wish to implement their own `accumulators`
+    __IMPORTANT__: If users wish to implement their own `accumulators`
     `forward` shouldn't return anything but accumulate data in `self.data`
     variable. No argument `calculate` should return `self.data` after
     calculating accumulated value (e.g. for `mean` it would be division
@@ -50,13 +50,13 @@ class Sum(Accumulator):
     `data` should have `+=` operator implemented between it's instances
     and Python integers.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: This is one of memory efficient accumulators
+        __IMPORTANT__: This is one of memory efficient accumulators
         and can be safely used.
 
-    Returns
-    -------
+    Returns:
+  
     torch.Tensor | Any
         Sum of values after accumulation. At each step proper
         summation up to this point is returned nonetheless.
@@ -74,8 +74,7 @@ class Sum(Accumulator):
 
     def forward(self, data) -> None:
         """
-        Arguments
-        ---------
+        Arguments:
         data: Any
             Anything which has `__iadd__`/`__add__` operator implemented between it's instances
             and Python integers.
@@ -85,9 +84,8 @@ class Sum(Accumulator):
     def calculate(self) -> typing.Any:
         """Calculate final value.
 
-        Returns
-        -------
-        torch.Tensor
+        Returns:
+         torch.Tensor
             Data accumulated via addition.
 
         """
@@ -100,15 +98,14 @@ class Mean(Accumulator):
     `data` should have `+=` operator implemented between it's instances
     and Python integers.
 
-    .. note::
+   !!!note
 
-        **IMPORTANT**: This is one of memory efficient accumulators
+        __IMPORTANT__: This is one of memory efficient accumulators
         and can be safely used. Should be preferred over accumulating
         data via `torchtraining.accumulators.List`
 
 
-    Returns
-    -------
+    Returns:
     torch.Tensor | Any
         Mean of values after accumulation. At each step proper
         mean up to this point is returned nonetheless.
@@ -128,8 +125,7 @@ class Mean(Accumulator):
 
     def forward(self, data: typing.Any) -> None:
         """
-        Arguments
-        ---------
+        Arguments:
         data: Any
             Anything which has `__iadd__`/`__add__` operator implemented between it's instances
             and Python integers. It should also have `__div__` operator implemented
@@ -141,8 +137,7 @@ class Mean(Accumulator):
     def calculate(self) -> typing.Any:
         """Calculate final value.
 
-        Returns
-        -------
+        Returns:
         torch.Tensor
             Accumulated data after summation and division by number of samples.
 
@@ -153,9 +148,9 @@ class Mean(Accumulator):
 class List(Accumulator):
     """Sum data coming into this object.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: It is advised **NOT TO USE** this accumulator
+        __IMPORTANT__: It is advised **NOT TO USE** this accumulator
         due to memory inefficiencies. Prefer `torchtraining.accumulators.Sum`
         or `torchtraining.accumulators.Mean` instead.
 
@@ -164,8 +159,7 @@ class List(Accumulator):
     (as it is only appended to `list`).
 
 
-    Returns
-    -------
+    Returns:
     List
         List of values after accumulation. At each step proper
         `list` up to this point is returned nonetheless.
@@ -182,8 +176,7 @@ class List(Accumulator):
 
     def forward(self) -> typing.List[typing.Any]:
         """
-        Arguments
-        ---------
+        Arguments:
         data: Any
             Anything which can be added to `list`. So anything I guess
         """
@@ -192,8 +185,7 @@ class List(Accumulator):
     def accumulate(self, data) -> None:
         """Calculate final value.
 
-        Returns
-        -------
+        Returns:
         torch.Tensor
             Return `List` with gathered data.
 
@@ -204,42 +196,40 @@ class List(Accumulator):
 class Except(Accumulator):
     """Special modifier of accumulators accumulating every value except specified.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: One of the `begin`, `end` has to be specified.
+        __IMPORTANT__: One of the `begin`, `end` has to be specified.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: This accumulators is useful in conjunction
+        __IMPORTANT__: This accumulators is useful in conjunction
         with `torchtraining.iterations.Multi` (e.g. for GANs and other irregular
         type of training).
 
     User can effectively choose which data coming from step should be accumulated
     and can divide accumulation based on that.
 
-    Parameters
-    ----------
-    accumulator: tt.Accumulator
-        Instance of accumulator to use for `data` accumulation.
-    begin: int | torch.Tensor[int], optional
-        If `int`, it should specify beginning of incoming values stream which
-        will not be taken into accumulation. If `torch.Tensor` containing integers,
-        it should specify consecutive beginnings of streams which are not taken into account.
-        If left unspecified (`None`), `begin` is assumed to be `0`th step.
-        Every modulo element of stream matching [begin, end] range will not be
-        forwarded to accumulator.
-    end: int | torch.Tensor[int], optional
-        If `int`, it should specify end of incoming values stream which
-        will not be taken into accumulation. If `torch.Tensor` containing integers,
-        it should specify consecutive ends of stream which will not be taken into account.
-        If left unspecified (`None`), `end` is assumed to be the same as `begin`.
-        This effectively excludes every `begin` element coming from value stream.
-        Every modulo element of stream matching [begin, end] range will not be
-        forwarded to accumulator.
+    Arguments:
+         accumulator:
+            Instance of accumulator to use for `data` accumulation.
+         begin:
+            If `int`, it should specify beginning of incoming values stream which
+            will not be taken into accumulation. If `torch.Tensor` containing integers,
+            it should specify consecutive beginnings of streams which are not taken into account.
+            If left unspecified (`None`), `begin` is assumed to be `0`th step.
+            Every modulo element of stream matching [begin, end] range will not be
+            forwarded to accumulator.
+         end:
+            If `int`, it should specify end of incoming values stream which
+            will not be taken into accumulation. If `torch.Tensor` containing integers,
+            it should specify consecutive ends of stream which will not be taken into account.
+            If left unspecified (`None`), `end` is assumed to be the same as `begin`.
+            This effectively excludes every `begin` element coming from value stream.
+            Every modulo element of stream matching [begin, end] range will not be
+            forwarded to accumulator.
 
 
-    Returns
-    -------
+    Returns:
     Any
         Whatever `accumulator` returns after accumulation. At each step proper
         value up to this point is returned nonetheless. Usually `torch.Tensor`
@@ -321,8 +311,7 @@ class Except(Accumulator):
 
     def forward(self, data) -> None:
         """
-        Arguments
-        ---------
+        Arguments:
         data: Any
             Anything which `accumulator` can consume
         """
@@ -333,8 +322,7 @@ class Except(Accumulator):
     def calculate(self) -> typing.Any:
         """Calculate final value.
 
-        Returns
-        -------
+        Returns:
         Any
             Returns anything `accumulator` accumulated.
 

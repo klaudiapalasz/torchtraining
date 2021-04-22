@@ -49,14 +49,13 @@ class BinaryFocal(_Loss):
         pos_weight=None,
         reduction: typing.Callable[[torch.Tensor], torch.Tensor] = None,
     ):
-        
         """Initialize `BinaryFocal` object.
-        
+       
         Arguments:
             gamma: 
                 Scale of focal loss effect. To obtain binary crossentropy set it to 0.0.
                 `0.5 - 2.5` range was used in original research paper and seemed robust.
-            weight:
+                weight:
                 Manual rescaling weight, if provided it's repeated to match input
                 tensor shape
             pos_weight:
@@ -70,7 +69,7 @@ class BinaryFocal(_Loss):
                 If user wants a summation he should use: `torch.sum`.
                 By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
         """
-        super().__init__()
+    super().__init__()
 
         self.gamma = gamma
         self.weight = weight
@@ -133,26 +132,26 @@ class MulticlassFocal(_Loss):
         ignore_index: int = -100,
         reduction: typing.Callable[[torch.Tensor], torch.Tensor] = None,
     ):
-    """Initialize `MulticlassFocal` object.
+        """Initialize `MulticlassFocal` object.
     
-    Arguments:
-        gamma:
-            Scale of focal loss effect. To obtain binary crossentropy set it to 0.0.
-            `0.5 - 2.5` range was used in original research paper and seemed robust.
-        weight:
-            Manual rescaling weight, if provided it's repeated to match input
-            tensor shape.
-            ignore_index int, optional
-            Specifies a target value that is ignored and does not contribute to the input gradient.
-            When :attr:`size_average` is ``True``, the loss is averaged over non-ignored targets.
-        reduction:
-            Specifies the reduction to apply to the output.
-            If user wants no reduction he should use: `lambda loss: loss`.
-            If user wants a summation he should use: `torch.sum`.
-            By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
+        Arguments:
+            gamma:
+                Scale of focal loss effect. To obtain binary crossentropy set it to 0.0.
+                `0.5 - 2.5` range was used in original research paper and seemed robust.
+            weight:
+                Manual rescaling weight, if provided it's repeated to match input
+                tensor shape.
+                ignore_index int, optional
+                Specifies a target value that is ignored and does not contribute to the input gradient.
+                When :attr:`size_average` is ``True``, the loss is averaged over non-ignored targets.
+            reduction: 
+                Specifies the reduction to apply to the output.
+                If user wants no reduction he should use: `lambda loss: loss`.
+                If user wants a summation he should use: `torch.sum`.
+                By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
 
-    """
-        super().__init__()
+        """
+    super().__init__()
 
         self.gamma = gamma
         self.weight = weight
@@ -226,28 +225,28 @@ class SmoothCrossEntropy(_Loss):
         ignore_index: int = -100,
         reduction: typing.Callable[[torch.Tensor], torch.Tensor] = None,
     ):
-    """Initialize `SmoothCrossEntropy` object.
+        """Initialize `SmoothCrossEntropy` object.
     
-    Arguments:
-        alpha: 
-            Smoothing parameter in the range `[0, 1)`.
-        weight: 
-            Manual rescaling weight, if provided it's repeated to match input
-            tensor shape. Default: `None` (no weighting)
-            ignore_index int, optional
-            Specifies a target value that is ignored and does not contribute to the input gradient.
-            When :attr:`size_average` is ``True``, the loss is averaged over non-ignored targets.
-            Default: `-100`
-        reduction: 
-            Specifies the reduction to apply to the output.
-            If user wants no reduction he should use: `lambda loss: loss`.
-            If user wants a summation he should use: `torch.sum`.
-            By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples)
-    """
+        Arguments:
+            alpha: 
+                Smoothing parameter in the range `[0, 1)`.
+            weight: 
+                Manual rescaling weight, if provided it's repeated to match input
+                tensor shape. Default: `None` (no weighting)
+                ignore_index int, optional
+                Specifies a target value that is ignored and does not contribute to the input gradient.
+                When :attr:`size_average` is ``True``, the loss is averaged over non-ignored targets.
+                Default: `-100`
+            reduction: 
+                Specifies the reduction to apply to the output.
+                If user wants no reduction he should use: `lambda loss: loss`.
+                If user wants a summation he should use: `torch.sum`.
+                By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples)
+        """
         if not 0 <= alpha < 1:
             raise ValueError("smoothing alpha should be in [0, 1) range.")
 
-        super().__init__()
+    super().__init__()
 
         self.alpha = alpha
         self.weight = weight
@@ -305,6 +304,8 @@ class SmoothBinaryCrossEntropy(_Loss):
             If user wants no reduction he should use: `lambda loss: loss`.
             If user wants a summation he should use: `torch.sum`.
             By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
+
+
     """
 
     def __init__(
@@ -314,9 +315,9 @@ class SmoothBinaryCrossEntropy(_Loss):
         pos_weight: int = None,
         reduction: typing.Callable[[torch.Tensor], torch.Tensor] = None,
     ):
-    """Initialize `SmoothBinaryCrossEntropy` object.
+        """Initialize `SmoothBinaryCrossEntropy` object.
      
-     Arguments: 
+        Arguments: 
             alpha: 
                 Smoothing parameter in the range `[0, 1)`.
             weight:
@@ -332,11 +333,11 @@ class SmoothBinaryCrossEntropy(_Loss):
                 If user wants no reduction he should use: `lambda loss: loss`.
                 If user wants a summation he should use: `torch.sum`.
                 By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
-    """
+        """
         if not 0 <= alpha < 1:
             raise ValueError("smoothing alpha should be in [0, 1) range.")
 
-        super().__init__()
+    super().__init__()
 
         self.alpha = alpha
         self.weight = weight
@@ -407,29 +408,29 @@ class QuadrupletLoss(_Loss):
         weight=None,
         reduction: str = "sum",
     ):
-    """Initialize `QuadrupletLoss` object.
+        """Initialize `QuadrupletLoss` object.
         
-    Arguments
-        alpha1: 
-            Margin of standard `triplet` loss. Default: `1.0`
-        alpha2:
-            Margin of second part of loss (pushing negative1 and negative2 samples
-            more than positive and anchor). Default: `0.5`
-        metric: 
-            Metric used to rate distance between samples. Fully Connected neural
-            network with one output and `sigmoid` could be used (as in original paper)
-            or anything else adhering to API.
-            Default: Euclidean distance.
-        weight:
-            Manual rescaling weight, if provided it's repeated to match input
-            tensor shape. Default: `None` (no weighting)
-        reduction:
-            Specifies the reduction to apply to the output.
-            If user wants no reduction he should use: `lambda loss: loss`.
-            If user wants a summation he should use: `torch.sum`.
-            By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
-    """
-        super().__init__()
+        Arguments:
+            alpha1: 
+                Margin of standard `triplet` loss. Default: `1.0`
+            alpha2:
+                Margin of second part of loss (pushing negative1 and negative2 samples
+                more than positive and anchor). Default: `0.5`
+            metric: 
+                Metric used to rate distance between samples. Fully Connected neural
+                network with one output and `sigmoid` could be used (as in original paper)
+                or anything else adhering to API.
+                Default: Euclidean distance.
+            weight:
+                Manual rescaling weight, if provided it's repeated to match input
+                tensor shape. Default: `None` (no weighting)
+            reduction:
+                Specifies the reduction to apply to the output.
+                If user wants no reduction he should use: `lambda loss: loss`.
+                If user wants a summation he should use: `torch.sum`.
+                By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
+        """
+    super().__init__()
 
         self.alpha1 = alpha1
         self.alpha2 = alpha2

@@ -85,7 +85,7 @@ class CUDA(Operation):
         **usually** pointlessly pollutes GPU memory.
 
 
-    Arguments:
+    Atributes:
         device: 
             Device index to select. It’s a no-op if this argument is a negative integer or None.
             Default: `None`
@@ -102,6 +102,21 @@ class CUDA(Operation):
     def __init__(
         self, device=None, non_blocking=False, memory_format=torch.preserve_format
     ):
+    """Initialize `CUDA` object.
+    
+    Arguments:
+        device: 
+            Device index to select. It’s a no-op if this argument is a negative integer or None.
+            Default: `None`
+        non_blocking:
+            If True and this copy is between CPU and GPU, the copy may occur asynchronously
+            with respect to the host. For other cases, this argument has no effect.
+            Default: `False`
+        memory_format: torch.memory_format, optional
+            The desired memory format of returned Tensor. Default: torch.preserve_format.
+            Default: `torch.preserve_format`
+            
+        """
         super().__init__()
         self.device = device
         self.non_blocking = non_blocking

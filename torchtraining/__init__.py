@@ -1,16 +1,14 @@
 """Root module of `torchtraining` containing common operations.
 
-.. note::
-
-    **IMPORTANT**: This module is one of the most important and
+!!!note
+    __IMPORTANT__: This module is one of the most important and
     is used in almost any DL task so be sure to understand it!
 
 
 Operations in this module can be used to:
-
-    * control pipeline flow
-    * select output from `step`s
-    * send data to multiple operations
+- control pipeline flow
+- select output from `step`s
+- send data to multiple operations
 
 See below for more info.
 
@@ -38,9 +36,9 @@ class Select(Operation):
     Allows users to focus on specific part of output and pipe specified
     values to other operations (like `metrics`, `loggers` etc.).
 
-    .. note::
+   !!!note
 
-        **IMPORTANT**: This operation is run in almost any case
+        __IMPORTANT__: This operation is run in almost any case
         so be sure to understand how it works.
 
 
@@ -59,24 +57,21 @@ class Select(Operation):
         # (loss, predictions, targets) tuple
         step ** tt.Select(loss=0) ** tt.pytorch.Backward()
 
-    .. note::
+ !!!note
 
         Name of keyword argument can be arbitrary but
         **you are really encouraged** to name it like the variable
         returned from `step` (or at least make it understandable to others).
 
 
-    Parameters
-    ----------
-    output_selection : **output_selection
-        `name`: output_index mapping selecting which element from step returned `tuple`
-        to choose. `name` can be arbitrary, but should be named like the variable
-        returned from `step`. See example above.
+    Arguments:
+      output_selection : **output_selection
+            `name`: output_index mapping selecting which element from step returned `tuple`
+            to choose. `name` can be arbitrary, but should be named like the variable
+            returned from `step`. See example above.
 
 
-    Returns
-    -------
-    Any | List[Any]
+    Returnss:
         If single int is passed `output_selection` return single element from `Iterable`.
         Otherwise returns chosen elements as `list`
 
@@ -104,10 +99,9 @@ class Select(Operation):
 
     def forward(self, data: typing.Iterable[typing.Any]) -> typing.Any:
         """
-        Arguments
-        ---------
-        data: Iterable[Any]
-            Iterable (e.g. `tuple`, `list`) with any elements.
+        Arguments:
+            data: Iterable[Any]
+               Iterable (e.g. `tuple`, `list`) with any elements.
         """
         selected = self._selection_method(data)
         return selected
@@ -119,7 +113,7 @@ class Select(Operation):
 class Split(Operation):
     """Split operation with data to multiple components.
 
-    .. note::
+    !!!note
 
         **IMPORTANT**: This operation is run in almost any case
         so be sure to understand how it works.
@@ -197,13 +191,12 @@ class Split(Operation):
 
 
 class OnSplittedTensor(Operation):
-    """Split tensor along dimension and apply operation on each element.
+   """Splitted tensor along dimension and apply operation on each element.
 
     By default, `torch.Tensor` will be splitted along batch (`dim=0`)
 
-    .. note::
-
-        **IMPORTANT**: After splitting first dimension is squeezed
+    !!!note
+        __IMPORTANT__: After splitting first dimension is squeezed
         via `torch.squeeze`.
 
 
@@ -224,20 +217,17 @@ class OnSplittedTensor(Operation):
 
 
 
-    Parameters
-    ----------
-    operation: tt.Operation | Callable(data) -> Any
-        Operation which will be applied to each element of `torch.Tensor`.
-    dim: int, optional
-        Dimension along which `data` `torch.Tensor` will be splitted.
-        Default: `0`
+    Arguments:
+         operation: 
+            Operation which will be applied to each element of `torch.Tensor`.
+         dim:
+            Dimension along which `data` `torch.Tensor` will be splitted.
+            Default: `0`
 
 
-    Returns
-    -------
+    Returns:
     Tuple[torch.Tensor]
         Splitted `data` along `dim` (unmodified by `operation`).
-
     """
 
     def __init__(self, operation: Operation, dim: int = 0):
@@ -247,10 +237,9 @@ class OnSplittedTensor(Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: torch.Tensor
-            Tensor to split and apply `operation` on.
+        Arguments:
+            data:
+               Tensor to split and apply `operation` on.
         """
         splitted = tuple(map(torch.squeeze, torch.split(data, 1, self.dim)))
         for tensor in splitted:
@@ -275,17 +264,14 @@ class Flatten(Operation):
         # Tuple (logits1, targets1, logits2, targets2, module1, module2)
         step ** tt.Flatten()
 
-    Parameters
-    ----------
-    types : Tuple[type], optional
-        Types to be considered non-flat. Those will be recursively flattened.
-        Default: `(list, tuple)`
+    Arguments:
+         types : 
+            Types to be considered non-flat. Those will be recursively flattened.
+            Default: `(list, tuple)`
 
-    Returns
-    -------
+    Returns:
     Tuple[samples]
         Single `tuple` with all elements (not being `tuple` or `list`).
-
     """
 
     def __init__(self, types: typing.Tuple = (list, tuple)):
@@ -318,7 +304,6 @@ class Flatten(Operation):
 
 class If(Operation):
     """Run operation only If `condition` is `True`.
-
     `condition` can also be a single argument callable, in this case it can be
     dependent on data, see below::
 
@@ -331,21 +316,18 @@ class If(Operation):
         step = TrainStep(criterion, device)
         step ** tt.If(lambda loss: loss ** 10, tt.callbacks.Logger("VERY HIGH LOSS!!!"))
 
-    Parameters
-    ----------
-    condition: bool | Callable(Any) -> bool
-        If boolean value and if `True`, run underlying Operation (or other Callable).
-        If Callable, should take data as argument and return decision based on
-        that as single `bool`.
-    operation: torchtraining.Operation | Callable
-        Operation to run if `True`
+    Parameters:
+        condition:
+            If boolean value and if `True`, run underlying Operation (or other Callable).
+            If Callable, should take data as argument and return decision based on
+            that as single `bool`.
+         operation:
+         Operation to run if `True`
 
 
-    Returns
-    -------
-    Any
-        If `true`, returns value from `operation`, otherwise passes original `data`
-
+    Returns:
+         Any
+         If `true`, returns value from `operation`, otherwise passes original `data`
     """
 
     def __init__(
@@ -364,9 +346,8 @@ class If(Operation):
 
     def forward(self, data: typing.Any) -> typing.Any:
         """
-        Arguments
-        ---------
-        data: Any
+        Arguments:
+            data:
             Anything you want (usually `torch.Tensor` like stuff).
         """
         if self.condition(data):
@@ -382,9 +363,8 @@ class If(Operation):
 # Make it dynamic and static
 class IfElse(Operation):
     """Run `operation1` only if `condition` is `True`, otherwise run `operation2`.
-
-    `condition` can also be a single argument callable, in this case it can be
-    dependent on data, see below::
+     `condition` can also be a single argument callable, in this case it can be
+      dependent on data, see below::
 
         class TrainStep(tt.steps.Train):
             def forward(self, module, sample):
@@ -400,21 +380,17 @@ class IfElse(Operation):
             tt.callbacks.Logger("LOSS IS NOT THAT HIGH..."),
         )
 
-    Parameters
-    ----------
-    condition: bool
-        Boolean value. If `true`, run underlying Op (or other Callable).
-    operation1: torchtraining.Op | Callable
-        Operation or callable getting single argument (`data`) and returning anything.
-    operation2: torchtraining.Op | Callable
-        Operation or callable getting single argument (`data`) and returning anything.
+    Parameters:
+         condition:
+            Boolean value. If `true`, run underlying Op (or other Callable).
+         operation1:
+            Operation or callable getting single argument (`data`) and returning anything.
+         operation2:
+            Operation or callable getting single argument (`data`) and returning anything.
 
-
-    Returns
-    -------
-    Any
-        If `true`, returns value from `operation1`, otherwise from `operation2`.
-
+    Returns:
+       Any
+       If `true`, returns value from `operation1`, otherwise from `operation2`.
     """
 
     def __init__(
@@ -430,9 +406,8 @@ class IfElse(Operation):
 
     def forward(self, data: typing.Any) -> typing.Any:
         """
-        Arguments
-        ---------
-        data: Any
+        Arguments:
+            data:
             Anything you want (usually `torch.Tensor` like stuff).
         """
         if self.condition:
@@ -448,7 +423,7 @@ class IfElse(Operation):
 class ToAll(Operation):
     r"""Apply operation to each element of sample.**
 
-    .. note::
+    !!!note
 
         If you want to apply operation to all nested elements (e.g. in nested `tuple`),
         please use `torchtraining.Flatten` object first.
@@ -470,15 +445,13 @@ class ToAll(Operation):
         )
 
 
-    Parameters
-    ----------
-    operation: Callable
-        Pipe to apply to each element of sample.
+    Arguments:
+         operation:
+            Pipe to apply to each element of sample.
 
-    Returns
-    -------
-    Tuple[operation(subsample)]
-        Tuple consisting of subsamples with operation applied.
+    Returns:
+         Tuple[operation(subsample)]
+         Tuple consisting of subsamples with operation applied.
 
     """
 
@@ -488,10 +461,9 @@ class ToAll(Operation):
 
     def forward(self, sample):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything you want (usually `torch.Tensor` like stuff).
+        Arguments:
+            data:
+               Anything you want (usually `torch.Tensor` like stuff).
         """
         return tuple(self.operation(subsample) for subsample in sample)
 
@@ -512,19 +484,17 @@ class Lambda(Operation):
         # If you want to get that SOTA badly, we got ya covered
         step ** tt.Lambda(lambda accuracy: accuracy * 2)
 
-    Parameters
-    ----------
-    operation: Callable(Any) -> Any
-        Single argument callable getting data and returning some value.
-    name: str, optional
-        `string` representation of this operation (if any).
-        Default: `torchtraining.metrics.Lambda`
+   Arguments:
+       operation:
+            Single argument callable getting data and returning some value.
+       name: 
+            `string` representation of this operation (if any).
+             Default: `torchtraining.metrics.Lambda`
 
 
-    Returns
-    -------
-    Any
-        Value returned from `operation`
+    Returns:
+         Any
+         Value returned from `operation`
 
     """
 
@@ -542,9 +512,8 @@ class Lambda(Operation):
 
     def forward(self, data: typing.Any) -> typing.Any:
         """
-        Arguments
-        ---------
-        data: Any
+        Arguments:
+            data:
             Anything you want (usually `torch.Tensor` like stuff).
         """
         return self.operation(data)

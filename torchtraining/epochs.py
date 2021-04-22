@@ -31,8 +31,8 @@ class Epoch(_base.Epoch):
         used in training (composing multiple `iterations`).
 
 
-    Arguments:
-        -iterations : Iterable[torchtraining.iterations.Iteration]
+    Attributes:
+        iterations : Iterable[torchtraining.iterations.Iteration]
             Iterations to be run one after another during single loop pass.
         epochs : int
             **Keyword only argument** specifying number of epochs to run.
@@ -52,6 +52,28 @@ class Epoch(_base.Epoch):
     """
 
     def __init__(self, *iterations, epochs: int, log: typing.Union[str, int] = "NONE"):
+       
+    """Initialize `Epoch` object.
+    
+   
+    Arguments:
+        iterations : Iterable[torchtraining.iterations.Iteration]
+            Iterations to be run one after another during single loop pass.
+        epochs : int
+            **Keyword only argument** specifying number of epochs to run.
+        log : str | int, optional
+            Severity level for logging object's actions.
+            Available levels of logging:
+                - NONE      0
+                - TRACE 	5
+                - DEBUG 	10
+                - INFO 	20
+                - SUCCESS 	25
+                - WARNING 	30
+                - ERROR 	40
+                - CRITICAL 	50
+            Default: `NONE` (no logging, `0` priority)
+      """
         super().__init__()
         self.iterations = iterations
         self.epochs = epochs

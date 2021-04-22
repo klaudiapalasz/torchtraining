@@ -49,25 +49,26 @@ class BinaryFocal(_Loss):
         pos_weight=None,
         reduction: typing.Callable[[torch.Tensor], torch.Tensor] = None,
     ):
+        
         """Initialize `BinaryFocal` object.
         
         Arguments:
             gamma: 
-            Scale of focal loss effect. To obtain binary crossentropy set it to 0.0.
-            `0.5 - 2.5` range was used in original research paper and seemed robust.
-         weight:
-            Manual rescaling weight, if provided it's repeated to match input
-            tensor shape
-        pos_weight:
-            Weight of positive examples. Must be a vector with
-            length equal to the number of classes.
-            In general `pos_weight` should be decreased slightly as `gamma` is increased
-            (for `gamma=2`, `pos_weight=0.25` was found to work best in original paper).
-        reduction:
-            Specifies the reduction to apply to the output.
-            If user wants no reduction he should use: `lambda loss: loss`.
-            If user wants a summation he should use: `torch.sum`.
-            By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
+                Scale of focal loss effect. To obtain binary crossentropy set it to 0.0.
+                `0.5 - 2.5` range was used in original research paper and seemed robust.
+            weight:
+                Manual rescaling weight, if provided it's repeated to match input
+                tensor shape
+            pos_weight:
+                Weight of positive examples. Must be a vector with
+                length equal to the number of classes.
+                In general `pos_weight` should be decreased slightly as `gamma` is increased
+                (for `gamma=2`, `pos_weight=0.25` was found to work best in original paper).
+            reduction:
+                Specifies the reduction to apply to the output.
+                If user wants no reduction he should use: `lambda loss: loss`.
+                If user wants a summation he should use: `torch.sum`.
+                By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
         """
         super().__init__()
 
@@ -135,16 +136,16 @@ class MulticlassFocal(_Loss):
     """Initialize `MulticlassFocal` object.
     
     Arguments:
-        gamma: float
+        gamma:
             Scale of focal loss effect. To obtain binary crossentropy set it to 0.0.
             `0.5 - 2.5` range was used in original research paper and seemed robust.
-        weight: Tensor, optional
+        weight:
             Manual rescaling weight, if provided it's repeated to match input
             tensor shape.
             ignore_index int, optional
             Specifies a target value that is ignored and does not contribute to the input gradient.
             When :attr:`size_average` is ``True``, the loss is averaged over non-ignored targets.
-        reduction: typing.Callable(torch.Tensor) -> torch.Tensor, optional
+        reduction:
             Specifies the reduction to apply to the output.
             If user wants no reduction he should use: `lambda loss: loss`.
             If user wants a summation he should use: `torch.sum`.
@@ -304,8 +305,6 @@ class SmoothBinaryCrossEntropy(_Loss):
             If user wants no reduction he should use: `lambda loss: loss`.
             If user wants a summation he should use: `torch.sum`.
             By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
-
-
     """
 
     def __init__(
@@ -448,14 +447,14 @@ class QuadrupletLoss(_Loss):
     ) -> torch.Tensor:
         """
         Arguments:
-            anchor: torch.Tensor
+            anchor: 
                 :math:`(N, *)` where :math:`*` means, any number of additional dimensions
                 For images usually of shape :math:`(N, C, H, W)`.
-            positive: torch.Tensor
+            positive:
                 Same as `anchor`
-            negative: torch.Tensor
+            negative:
                 Same as `anchor`
-            negative2: torch.Tensor
+            negative2:
                 Same as `anchor`
 
         Returns:

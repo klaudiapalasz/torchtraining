@@ -20,35 +20,34 @@ class Epoch(_base.Epoch):
 
     See `Introduction tutorial<>__` for examples.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: This module is one of core features
+        __IMPORTANT__: This module is one of core features
         so be sure to understand how it works.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: Usually this is the top most class object
+        __IMPORTANT__: Usually this is the top most class object
         used in training (composing multiple `iterations`).
 
 
-    Parameters
-    ----------
-    *iterations : Iterable[torchtraining.iterations.Iteration]
-        Iterations to be run one after another during single loop pass.
-    epochs : int
-        **Keyword only argument** specifying number of epochs to run.
-    log : str | int, optional
-        Severity level for logging object's actions.
-        Available levels of logging:
-            * NONE      0
-            * TRACE 	5
-            * DEBUG 	10
-            * INFO 	20
-            * SUCCESS 	25
-            * WARNING 	30
-            * ERROR 	40
-            * CRITICAL 	50
-        Default: `NONE` (no logging, `0` priority)
+    Arguments:
+        -iterations : Iterable[torchtraining.iterations.Iteration]
+            Iterations to be run one after another during single loop pass.
+        epochs : int
+            **Keyword only argument** specifying number of epochs to run.
+        log : str | int, optional
+            Severity level for logging object's actions.
+            Available levels of logging:
+                - NONE      0
+                - TRACE 	5
+                - DEBUG 	10
+                - INFO 	20
+                - SUCCESS 	25
+                - WARNING 	30
+                - ERROR 	40
+                - CRITICAL 	50
+            Default: `NONE` (no logging, `0` priority)
 
     """
 

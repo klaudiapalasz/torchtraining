@@ -19,9 +19,9 @@ If you wish to use other (non-standard) devices (like TPUs), please use
     # Select `loss` and perform backpropagation
     step ** tt.Select(loss=0) ** tt.device.Device(xm.xla_device())
 
-.. note::
+!!!note
 
-    **IMPORTANT**: Usually users should use `torchtraining.device.CPU()` cast
+    __IMPORTANT__: Usually users should use `torchtraining.device.CPU()` cast
     after `iteration` and before `accumulation` in order not to pollute
     GPUs memory.
 
@@ -38,9 +38,9 @@ from ._base import Operation
 class CPU(Operation):
     """Cast `object` (usually `torch.Tensor`) to `cpu`.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: This object should be used most often from this package
+        __IMPORTANT__: This object should be used most often from this package
         in order to save `GPU`/`TPU` memory.
         See example below
 
@@ -61,8 +61,7 @@ class CPU(Operation):
             accuracy=1
         ) ** tt.device.CPU() ** tt.accumulators.List() ** tt.callbacks.Logger("Accuracy")
 
-    Parameters
-    ----------
+    Arguments:
     memory_format: torch.memory_format, optional
         The desired memory format of returned Tensor. Default: torch.preserve_format.
         Default: `torch.preserve_format`
@@ -80,24 +79,23 @@ class CPU(Operation):
 class CUDA(Operation):
     """Cast `object` (usually `torch.Tensor`) to cuda enabled device.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: This object **USUALLY SHOULDN'T BE USED** as it
+        __IMPORTANT__: This object **USUALLY SHOULDN'T BE USED** as it
         **usually** pointlessly pollutes GPU memory.
 
 
-    Parameters
-    ----------
-    device: torch.device | int, optional
-        Device index to select. It’s a no-op if this argument is a negative integer or None.
-        Default: `None`
-    non_blocking: bool, optional
-        If True and this copy is between CPU and GPU, the copy may occur asynchronously
-        with respect to the host. For other cases, this argument has no effect.
-        Default: `False`
-    memory_format: torch.memory_format, optional
-        The desired memory format of returned Tensor. Default: torch.preserve_format.
-        Default: `torch.preserve_format`
+    Arguments:
+        device: 
+            Device index to select. It’s a no-op if this argument is a negative integer or None.
+            Default: `None`
+        non_blocking:
+            If True and this copy is between CPU and GPU, the copy may occur asynchronously
+            with respect to the host. For other cases, this argument has no effect.
+            Default: `False`
+        memory_format: torch.memory_format, optional
+            The desired memory format of returned Tensor. Default: torch.preserve_format.
+            Default: `torch.preserve_format`
 
     """
 
@@ -118,19 +116,18 @@ class CUDA(Operation):
 class Device(Operation):
     """Cast `object` to any device (for example `TPU` with `torch_xla` package).
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: This object **USUALLY SHOULDN'T BE USED** as it
+        __IMPORTANT__: This object **USUALLY SHOULDN'T BE USED** as it
         **usually** pointlessly pollutes device memory (unless it's CPU,
         in such case simply use `torchtraining.device.CPU()`).
 
     See `example` at the beginning of this section.
 
-    Parameters
-    ----------
-    device: torch.device | Any
-        Anything which can be used with `torch.Tensor.to` to cast onto
-        specified device.
+    Arguements:
+        device: 
+            Anything which can be used with `torch.Tensor.to` to cast onto
+            specified device.
 
     """
 

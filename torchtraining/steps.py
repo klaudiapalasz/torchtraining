@@ -1,8 +1,8 @@
 """Perform single step on data and via specific module(s).
 
-.. note::
+!!!note
 
-    **IMPORTANT**: This module is one of core features
+    __IMPORTANT__: This module is one of core features
     so be sure to understand how it works.
     It is the core and defines how you perform single
     step through the data.
@@ -24,21 +24,21 @@ Usually it looks something along those lines::
     step = Step(criterion=torch.nn.BCEWithLogitsLoss, device=torch.device("cuda"))
 
 
-.. note::
+!!!note
 
-    **IMPORTANT**: You can override `__init__` if you wish to pass
+    __IMPORTANT__: You can override `__init__` if you wish to pass
     other arguments.
 
 
-.. note::
+!!!note
 
-    **IMPORTANT**: You can override `forward` signature to anything you
+    __IMPORTANT__: You can override `forward` signature to anything you
     desire. Just be sure to pass appropriate data to it (via `iteration` or `epoch`)
     or simple `__call__`.
 
-.. note::
+!!!note
 
-    **IMPORTANT**: `module` is passed from other objects and can be anything.
+    __IMPORTANT__: `module` is passed from other objects and can be anything.
     In case of GANs in tutorial this is a `Tuple` of `torch.nn.Module`.
 
 

@@ -1,9 +1,9 @@
 """This module provides standard PyTorch operations (like `backward`)
 in functional manner.
 
-.. note::
+!!!note
 
-    **IMPORTANT**: This module is used almost all the time
+    __IMPORTANT__: This module is used almost all the time
     so be sure to understand how it works.
 
 
@@ -45,25 +45,23 @@ from ._base import Operation
 class Detach(Operation):
     """Returns a new Tensor, detached from the current graph.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: This operation should be used before accumulating
+        __IMPORTANT__: This operation should be used before accumulating
         values after `iteration` in order not to grow backpropagation
         graph.
 
-    Returns
-    -------
-    torch.Tensor
-        Detached tensor
+    Returns:
+        torch.Tensor:
+            Detached tensor
 
     """
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        torch.Tensor
-            Tensor to be detached (new Tensor is returned).
+        Arguments:
+            torch.Tensor:
+                Tensor to be detached (new Tensor is returned).
 
         """
         return data.detach()
@@ -75,31 +73,37 @@ class Schedule(Operation):
     Usually placed after each `step` or `iteration` (depending on provided
     scheduler instance).
 
-    Returns
-    -------
-    torch.Tensor
-        Value passed to function initially
+    Returns:
+        torch.Tensor:
+            Value passed to function initially
 
-    Parameters
-    ----------
-    scheduler : torch.optim.lr_scheduler._LRScheduler
-        Instance of scheduler-like object with interface aligned with
-        `torch.optim.lr_scheduler._LRScheduler` base class
-    use_data : bool
-        Whether input data should be used when stepping scheduler.
+    Attributes:
+        scheduler :
+            Instance of scheduler-like object with interface aligned with
+            `torch.optim.lr_scheduler._LRScheduler` base class
+        use_data :
+            Whether input data should be used when stepping scheduler.
     """
 
     def __init__(self, scheduler, use_data: bool = False):
+        """Initialize `Schedule` object.
+        
+         Arguments:
+            scheduler :
+                Instance of scheduler-like object with interface aligned with
+                `torch.optim.lr_scheduler._LRScheduler` base class
+            use_data : 
+                Whether input data should be used when stepping scheduler.
+        """
         super().__init__()
         self.scheduler = scheduler
         self.use_data = use_data
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        torch.Tensor
-            Tensor which is optionally used to step scheduler.
+        Arguments:
+            torch.Tensor:
+                Tensor which is optionally used to step scheduler.
 
         """
         if self.use_data:
@@ -113,26 +117,38 @@ class Schedule(Operation):
 class Backward(Operation):
     """Run backpropagation on output tensor.
 
-    Parameters
-    ----------
-    scaler : torch.cuda.amp.GradScaler, optional
-        Gradient scaler used for automatic mixed precision mode.
-    accumulate: int, optional
-        Divide loss by ``accumulate`` if gradient accumulation is used.
-        This approach averages gradient from multiple batches.
-        Default: `1` (no accumulation)
-    gradient : torch.Tensor, optional
-        Tensor used as initial value to backpropagation. If unspecified,
-        uses `torch.tensor([1.0])` as default value (just like `tensor.backward()` call).
+    Attributes:
+        scaler :
+            Gradient scaler used for automatic mixed precision mode.
+        accumulate: 
+            Divide loss by ``accumulate`` if gradient accumulation is used.
+            This approach averages gradient from multiple batches.
+            Default: `1` (no accumulation)
+        gradient : 
+            Tensor used as initial value to backpropagation. If unspecified,
+            uses `torch.tensor([1.0])` as default value (just like `tensor.backward()` call).
 
-    Returns
-    -------
-    torch.Tensor
-        Tensor after backward (possibly scaled by `accumulate`)
+    Returns:
+        torch.Tensor:
+            Tensor after backward (possibly scaled by `accumulate`)
 
     """
 
     def __init__(self, scaler=None, accumulate: int = 1, gradient: torch.Tensor = None):
+        """Initialize `Backward` object.
+    
+        Arguments:
+            scaler :
+                Gradient scaler used for automatic mixed precision mode.
+            accumulate: 
+                Divide loss by ``accumulate`` if gradient accumulation is used.
+                This approach averages gradient from multiple batches.
+                Default: `1` (no accumulation)
+            gradient : 
+                Tensor used as initial value to backpropagation. If unspecified,
+                uses `torch.tensor([1.0])` as default value (just like `tensor.backward()` call).
+        """
+     
         super().__init__()
         self.scaler = scaler
         self.accumulate = accumulate
@@ -140,11 +156,10 @@ class Backward(Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: torch.Tensor
-            Tensor on which `backward` will be run (possibly accumulated).
-            Usually `loss` value
+        Arguments:
+            data:
+                Tensor on which `backward` will be run (possibly accumulated).
+                Usually `loss` value
 
         """
         output = data / self.accumulate
@@ -163,30 +178,28 @@ class Optimize(Operation):
 
     Currently specifying `closure` and `scaler` is mutually exclusive.
 
-    Parameters
-    ----------
-    optimizer: torch.optim.Optimizer
-        Instance of optimizer-like object with interface aligned with
-        `torch.optim.Optimizer`.
-    accumulate: int, optional
-        Divide loss by ``accumulate`` if gradient accumulation is used.
-        This approach averages gradient from multiple batches.
-        Default: `1` (no accumulation)
-    closure : Callable, optional
-        A closure that reevaluates the model and returns the loss.
-        Optional for most optimizers. Default: `None`
-    scaler : torch.cuda.amp.GradScaler, optional
-        Gradient scaler used for automatic mixed precision mode.
-        Default: `None`
-    *args
-        Arguments passed to either `scaler.step` (if specified) or `optimizer.step`
-    **kwargs
-        Keyword arguments passed to either `scaler.step` (if specified) or `optimizer.step`
+    Attributes:
+        optimizer:
+            Instance of optimizer-like object with interface aligned with
+            `torch.optim.Optimizer`.
+        accumulate: 
+            Divide loss by ``accumulate`` if gradient accumulation is used.
+            This approach averages gradient from multiple batches.
+            Default: `1` (no accumulation)
+        closure :
+            A closure that reevaluates the model and returns the loss.
+            Optional for most optimizers. Default: `None`
+        scaler :
+            Gradient scaler used for automatic mixed precision mode.
+            Default: `None`
+        *args
+            Arguments passed to either `scaler.step` (if specified) or `optimizer.step`
+        **kwargs
+            Keyword arguments passed to either `scaler.step` (if specified) or `optimizer.step`
 
-    Returns
-    -------
-    Any
-        Anything passed to `forward`.
+    Returns:
+        Any
+            Anything passed to `forward`.
 
 
     """
@@ -194,6 +207,27 @@ class Optimize(Operation):
     def __init__(
         self, optimizer, accumulate: int = 1, closure=None, scaler=None, *args, **kwargs
     ):
+        """Initialize `Optimize` object.
+        
+        Arguments:
+            optimizer:
+                Instance of optimizer-like object with interface aligned with
+                `torch.optim.Optimizer`.
+            accumulate: 
+                Divide loss by ``accumulate`` if gradient accumulation is used.
+                This approach averages gradient from multiple batches.
+                Default: `1` (no accumulation)
+            closure :
+                A closure that reevaluates the model and returns the loss.
+                Optional for most optimizers. Default: `None`
+            scaler :
+                Gradient scaler used for automatic mixed precision mode.
+                Default: `None`
+            *args
+                Arguments passed to either `scaler.step` (if specified) or `optimizer.step`
+            **kwargs
+                Keyword arguments passed to either `scaler.step` (if specified) or `optimizer.step`
+        """    
         super().__init__()
         self.optimizer = optimizer
         self.accumulate = accumulate
@@ -210,10 +244,9 @@ class Optimize(Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything as it does not influence this operation.
+        Arguments:
+            data:
+                Anything as it does not influence this operation.
 
         """
         self._counter += 1
@@ -233,23 +266,30 @@ class ZeroGrad(Operation):
     Usually called after every `step` (or after multiple steps, see `accumulate`
     argument).
 
-    Parameters
-    ----------
-    obj : torch.optim.Optimizer | torch.nn.Module
-        Instance of object to zero gradient on.
-    accumulate : int
-        Accumulate gradient for specified number of iterations before zero-ing out
-        gradient.
+    Attributes:
+        obj : 
+            Instance of object to zero gradient on.
+        accumulate :
+            Accumulate gradient for specified number of iterations before zero-ing out
+            gradient.
 
-    Returns
-    -------
-    Any
-        Anything passed to `forward`.
+    Returns:
+        Any
+            Anything passed to `forward`.
 
 
     """
 
     def __init__(self, obj, accumulate: int = 1):
+        """Initialize `ZeroGrad` object
+    
+        Arguments:
+            obj : 
+                Instance of object to zero gradient on.
+            accumulate :
+                Accumulate gradient for specified number of iterations before zero-ing out
+                gradient.
+        """
         super().__init__()
         self.obj = obj
         self.accumulate = accumulate
@@ -257,10 +297,9 @@ class ZeroGrad(Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything as it does not influence this operation.
+        Arguments:
+            data: 
+                Anything as it does not influence this operation.
 
         """
         self._counter += 1
@@ -272,29 +311,32 @@ class ZeroGrad(Operation):
 class UpdateGradScaler(Operation):
     """Update gradient scaler used with automatic mixed precision.
 
-    Parameters
-    ----------
-    scaler : torch.cuda.amp.GradScaler
-        Gradient scaler used for automatic mixed precision mode.
+    Attributes:
+        scaler : 
+            Gradient scaler used for automatic mixed precision mode.
 
-    Returns
-    -------
-    Any
-        Anything passed to `forward`.
+    Returns:
+        Any
+            Anything passed to `forward`.
 
 
     """
 
     def __init__(self, scaler):
+        """Initialize `UpdateGradScaler` object.
+    
+        Arguments:
+            scaler :
+                Gradient scaler used for automatic mixed precision mode.
+        """    
         super().__init__()
         self.scaler = scaler
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything as it does not influence this operation.
+        Arguments:
+            data:
+                Anything as it does not influence this operation.
 
         """
         self.scaler.update()

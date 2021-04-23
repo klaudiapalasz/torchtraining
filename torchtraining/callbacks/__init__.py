@@ -1,15 +1,15 @@
 """Traditionally known callback-like pipes.
 
-.. note::
+!!!note
 
-    **IMPORTANT**: This module is one of core features
+    __IMPORTANT__: This module is one of core features
     so be sure to understand how it works.
 
 This module allows user to (for example)::
 
-    * `save` their best model
-    * terminate training (early stopping)
-    * log data to `stdout`
+- `save` their best model
+- terminate training (early stopping)
+- log data to `stdout`
 
 Example::
 
@@ -25,13 +25,13 @@ Example::
 Users can also use specific `callbacks` which integrate with third party tools,
 namely:
 
-    * tensorboard
-    * neptune
-    * comet
+- tensorboard 
+- neptune
+- comet
 
-.. note::
+!!!note
 
-    **IMPORTANT**: Most of the training related logging/saving/processing
+    __IMPORTANT__: Most of the training related logging/saving/processing
     is (or will be) in this package.
 
 """
@@ -65,9 +65,9 @@ if utils.modules_exist("comet_ml"):
 class Save(_base.Operation):
     """Save best module according to specified metric.
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: This class plays the role of `ModelCheckpointer`
+        __IMPORTANT__: This class plays the role of `ModelCheckpointer`
         known from other training libs. It is user's role to load module
         and pass to `step`, hence we provide only `saving` part of checkpointing
         (may be subject to change).
@@ -91,42 +91,40 @@ class Save(_base.Operation):
             module, "my_model.pt", comparator=operator.lt
         )
 
-    Parameters
-    ----------
-    module: torch.nn.Module
-        Module to save.
-    path: pathlib.Path
-        Path where module will be saved. Usually ends with `.pt` suffix,
-        see PyTorch documentation.
-    comparator: Callable(Number, Number) -> bool, optional
-        Function comparing two values - current metric and best metric.
-        If ``true``, save new module and use current value as the best one.
-        One can use Python's standard operator library for this argument.
-        Default: `operator.gt` (`current` ** `best`)
-    method: Callable(torch.nn.Module, pathlib.Path) -> None, optional
-        Method to save `torch.nn.Module`. Takes module and path
-        and returns anything (return value is discarded).
-        Might be useful to transform model into
-        `torch.jit.ScriptModule` or do some preprocessing before saving.
-        Default: `torch.save` (whole model saving)
-    log : str | int, optional
-            Severity level for logging object's actions.
-            Available levels of logging:
-                * NONE      0
-                * TRACE 	5
-                * DEBUG 	10
-                * INFO 	20
-                * SUCCESS 	25
-                * WARNING 	30
-                * ERROR 	40
-                * CRITICAL 	50
-            Default: `INFO`
+    Attributes:
+        module:
+            Module to save.
+        path:
+            Path where module will be saved. Usually ends with `.pt` suffix,
+            see PyTorch documentation.
+        comparator: 
+            Function comparing two values - current metric and best metric.
+            If ``true``, save new module and use current value as the best one.
+            One can use Python's standard operator library for this argument.
+            Default: `operator.gt` (`current` ** `best`)
+        method: 
+            Method to save `torch.nn.Module`. Takes module and path
+            and returns anything (return value is discarded).
+            Might be useful to transform model into
+            `torch.jit.ScriptModule` or do some preprocessing before saving.
+            Default: `torch.save` (whole model saving)
+        log :
+                Severity level for logging object's actions.
+                Available levels of logging:
+                    * NONE      0
+                    * TRACE 	5
+                    * DEBUG 	10
+                    * INFO 	20
+                    * SUCCESS 	25
+                    * WARNING 	30
+                    * ERROR 	40
+                    * CRITICAL 	50
+                Default: `INFO`
 
 
-    Returns
-    -------
-    Any
-        Data passed in forward
+    Returns:
+        Any
+            Data passed in forward
 
     """
 
@@ -138,6 +136,38 @@ class Save(_base.Operation):
         method: typing.Callable = None,
         log: typing.Union[str, int] = "NONE",
     ):
+        """Initialize `Save` object.
+        
+        Arguments:
+            module:
+                Module to save.
+            path:
+                Path where module will be saved. Usually ends with `.pt` suffix,
+                see PyTorch documentation.
+            comparator: 
+                Function comparing two values - current metric and best metric.
+                If ``true``, save new module and use current value as the best one.
+                One can use Python's standard operator library for this argument.
+                Default: `operator.gt` (`current` ** `best`)
+            method: 
+                Method to save `torch.nn.Module`. Takes module and path
+                and returns anything (return value is discarded).
+                Might be useful to transform model into
+                `torch.jit.ScriptModule` or do some preprocessing before saving.
+                Default: `torch.save` (whole model saving)
+            log :
+                    Severity level for logging object's actions.
+                    Available levels of logging:
+                    * NONE      0
+                    * TRACE 	5
+                    * DEBUG 	10
+                    * INFO 	20
+                    * SUCCESS 	25
+                    * WARNING 	30
+                    * ERROR 	40
+                    * CRITICAL 	50
+                    Default: `INFO`
+        """
         super().__init__()
 
         self.module = module
@@ -152,10 +182,9 @@ class Save(_base.Operation):
 
     def forward(self, data: typing.Any) -> typing.Any:
         """
-        Arguments
-        ---------
-        data: Any
-            Anything which can be passed to `comparator` (e.g. `torch.Tensor`).
+        Arguments:
+            data:
+                Anything which can be passed to `comparator` (e.g. `torch.Tensor`).
         """
         if self.best is None or self.comparator(data, self.best):
             self.best = data
@@ -189,34 +218,50 @@ class TimeStopping(_base.Operation):
         # Stop after 30 minutes
         iteration ** tt.callbacks.TimeStopping(duration=60 * 30)
 
-    Parameters
-    ----------
-    duration: int | float
-        How long to run (in seconds) before exiting program.
-    log : str | int, optional
-            Severity level for logging object's actions.
-            Available levels of logging:
-                * NONE      0
-                * TRACE 	5
-                * DEBUG 	10
-                * INFO 	20
-                * SUCCESS 	25
-                * WARNING 	30
-                * ERROR 	40
-                * CRITICAL 	50
-            Default: `INFO`
+    Attributes:
+        duration:
+            How long to run (in seconds) before exiting program.
+        log :
+                Severity level for logging object's actions.
+                Available levels of logging:
+                    * NONE      0
+                    * TRACE 	5
+                    * DEBUG 	10
+                    * INFO 	20
+                    * SUCCESS 	25
+                    * WARNING 	30
+                    * ERROR 	40
+                    * CRITICAL 	50
+                Default: `INFO`
 
 
-    Returns
-    -------
-    Any
-        Data passed in forward
+    Returns:
+        Any
+            Data passed in forward
 
     """
 
     def __init__(
         self, duration: float, log="NONE",
     ):
+        """Initialize `TimeStopping` object.
+            
+        Arguments:
+            duration:
+                How long to run (in seconds) before exiting program.
+            log :
+                    Severity level for logging object's actions.
+                    Available levels of logging:
+                        * NONE      0
+                        * TRACE 	5
+                        * DEBUG 	10
+                        * INFO 	20
+                        * SUCCESS 	25
+                        * WARNING 	30
+                        * ERROR 	40
+                        * CRITICAL 	50
+                    Default: `INFO`
+        """
         super().__init__()
 
         self.duration = duration
@@ -225,10 +270,9 @@ class TimeStopping(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything as `data` will be simply forwarded
+        Arguments:
+            data:
+                Anything as `data` will be simply forwarded
         """
         if time.time() - self._start ** self.duration:
             loguru.logger.log(
@@ -252,41 +296,56 @@ class TerminateOnNan(_base.Operation):
         step = TrainStep(criterion, device)
         step ** tt.Select(loss=0) ** tt.callbacks.TerminateOnNan()
 
-    Parameters
-    ----------
-    log : str | int, optional
-            Severity level for logging object's actions.
-            Available levels of logging:
-                * NONE      0
-                * TRACE 	5
-                * DEBUG 	10
-                * INFO 	20
-                * SUCCESS 	25
-                * WARNING 	30
-                * ERROR 	40
-                * CRITICAL 	50
-            Default: `INFO`
-
-    Returns
-    -------
-    Any
-        Data passed in forward
+    Attributes:
+        log : 
+                Severity level for logging object's actions.
+                Available levels of logging:
+                    * NONE      0
+                    * TRACE 	5
+                    * DEBUG 	10
+                    * INFO 	20
+                    * SUCCESS 	25
+                    * WARNING 	30
+                    * ERROR 	40
+                    * CRITICAL 	50
+                Default: `INFO`
+    
+    Returns:
+        Any
+            Data passed in forward
 
     """
 
     def __init__(
         self, log: typing.Union[str, int] = "NONE",
     ):
+        """Initialize `TerminateOnNan` object.
+        
+        Arguments:
+            duration:
+                How long to run (in seconds) before exiting program.
+            log :
+                    Severity level for logging object's actions.
+                    Available levels of logging:
+                        * NONE      0
+                        * TRACE 	5
+                        * DEBUG 	10
+                        * INFO 	20
+                        * SUCCESS 	25
+                        * WARNING 	30
+                        * ERROR 	40
+                        * CRITICAL 	50
+                    Default: `INFO`
+        """
         super().__init__()
 
         self.log = log
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: torch.Tensor
-            Tensor possibly containing `NaN` values.
+        Arguments:
+            data: torch.Tensor:
+                Tensor possibly containing `NaN` values.
         """
         if torch.any(torch.isnan(data)):
             loguru.logger.log(self.log, "NaN values found, exiting with 1.")
@@ -314,35 +373,33 @@ class EarlyStopping(_base.Operation):
         )
         # Assume epoch was created from `iteration`
 
-    Parameters
-    ----------
-    patience: int
-        How long not to terminate if metric does not improve
-    delta: Number, optional
-        Difference between `best` value and current considered as an improvement.
-        Default: `0`.
-    comparator: Callable(Number, Number) -> bool, optional
-        Function comparing two values - current metric and best metric.
-        If ``true``, reset patience and use current value as the best one.
-        One can use Python's standard `operator` library for this argument.
-        Default: `operator.gt` (`current` ** `best`)
-    log : str | int, optional
-        Severity level for logging object's actions.
-        Available levels of logging:
-            * NONE      0
-            * TRACE 	5
-            * DEBUG 	10
-            * INFO 	20
-            * SUCCESS 	25
-            * WARNING 	30
-            * ERROR 	40
-            * CRITICAL 	50
-        Default: `INFO`
+    Attributes:
+        patience: 
+            How long not to terminate if metric does not improve
+        delta: 
+            Difference between `best` value and current considered as an improvement.
+            Default: `0`.
+        comparator: 
+            Function comparing two values - current metric and best metric.
+            If ``true``, reset patience and use current value as the best one.
+            One can use Python's standard `operator` library for this argument.
+            Default: `operator.gt` (`current` ** `best`)
+        log : 
+            Severity level for logging object's actions.
+            Available levels of logging:
+                * NONE      0
+                * TRACE 	5
+                * DEBUG 	10
+                * INFO 	20
+                * SUCCESS 	25
+                * WARNING 	30
+                * ERROR 	40
+                * CRITICAL 	50
+            Default: `INFO`
 
-    Returns
-    -------
-    Any
-        Data passed in forward
+    Returns:
+        Any
+            Data passed in forward
 
     """
 
@@ -353,6 +410,32 @@ class EarlyStopping(_base.Operation):
         comparator: typing.Callable = operator.gt,
         log="NONE",
     ):
+        """Initialize `EarlyStopping` object.
+        
+        Arguments:
+            patience: 
+                How long not to terminate if metric does not improve
+            delta: 
+                Difference between `best` value and current considered as an improvement.
+                Default: `0`.
+            comparator: 
+                Function comparing two values - current metric and best metric.
+                If ``true``, reset patience and use current value as the best one.
+                One can use Python's standard `operator` library for this argument.
+                Default: `operator.gt` (`current` ** `best`)
+            log : 
+                Severity level for logging object's actions.
+                Available levels of logging:
+                    * NONE      0
+                    * TRACE 	5
+                    * DEBUG 	10
+                    * INFO 	20
+                    * SUCCESS 	25
+                    * WARNING 	30
+                    * ERROR 	40
+                    * CRITICAL 	50
+                Default: `INFO`
+        """
         super().__init__()
 
         self.patience = patience
@@ -365,10 +448,9 @@ class EarlyStopping(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything which can be passed to `comparator` (e.g. `torch.Tensor`).
+        Arguments:
+            data:
+                Anything which can be passed to `comparator` (e.g. `torch.Tensor`).
         """
         if self.best is None or self.comparator(data, self.best):
             self._counter = -1
@@ -403,34 +485,52 @@ class Unfreeze(_base.Operation):
             module
         )
 
-    Parameters
-    ----------
-    module: torch.nn.Module
-        Module whose `parameters` will be unfrozen (`grad` set to `True`).
-    n: int
-        Module will be unfrozen after this many steps.
-    log : str | int, optional
-        Severity level for logging object's actions.
-        Available levels of logging:
-            * NONE      0
-            * TRACE 	5
-            * DEBUG 	10
-            * INFO 	20
-            * SUCCESS 	25
-            * WARNING 	30
-            * ERROR 	40
-            * CRITICAL 	50
-        Default: `INFO`
+    Attributes:
+        module:
+            Module whose `parameters` will be unfrozen (`grad` set to `True`).
+        n:
+            Module will be unfrozen after this many steps.
+        log :
+            Severity level for logging object's actions.
+            Available levels of logging:
+                * NONE      0
+                * TRACE 	5
+                * DEBUG 	10
+                * INFO 	20
+                * SUCCESS 	25
+                * WARNING 	30
+                * ERROR 	40
+                * CRITICAL 	50
+            Default: `INFO`
 
 
-    Returns
-    -------
-    Any
-        Data passed in forward
+    Returns:
+        Any
+            Data passed in forward
 
     """
 
     def __init__(self, module, n: int = 0, log="NONE"):
+        """Initialize `Unfreeze` object.
+        
+        Arguments:
+            module:
+                Module whose `parameters` will be unfrozen (`grad` set to `True`).
+            n:
+                Module will be unfrozen after this many steps.
+            log :
+                Severity level for logging object's actions.
+                Available levels of logging:
+                    * NONE      0
+                    * TRACE 	5
+                    * DEBUG 	10
+                    * INFO 	20
+                    * SUCCESS 	25
+                    * WARNING 	30
+                    * ERROR 	40
+                    * CRITICAL 	50
+                Default: `INFO`
+        """
         super().__init__()
 
         self.module = module
@@ -441,10 +541,9 @@ class Unfreeze(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything as data is simply forwarded
+        Arguments:
+            data:
+                Anything as data is simply forwarded
 
         """
         self._counter += 1
@@ -472,37 +571,53 @@ class Log(_base.Operation):
         # Log with loguru.logger accuracy
         iteration ** tt.Select(accuracy=1) ** tt.callbacks.Logger("Accuracy")
 
-    Parameters
-    ----------
-    name : str
-        Name under which data will be logged.
-        It will be in format "{name}: {data}"
-    log : str | int, optional
-        Severity level for logging object's actions.
-        Available levels of logging:
-            * NONE      0
-            * TRACE 	5
-            * DEBUG 	10
-            * INFO 	20
-            * SUCCESS 	25
-            * WARNING 	30
-            * ERROR 	40
-            * CRITICAL 	50
-        Default: `INFO`
+    Attributes:
+        name :
+            Name under which data will be logged.
+            It will be in format "{name}: {data}"
+        log :
+            Severity level for logging object's actions.
+            Available levels of logging:
+                * NONE      0
+                * TRACE 	5
+                * DEBUG 	10
+                * INFO 	20
+                * SUCCESS 	25
+                * WARNING 	30
+                * ERROR 	40
+                * CRITICAL 	50
+            Default: `INFO`
 
-    Arguments
-    ---------
-    data: Any
-        Anything which can be sensibly represented with `__str__` magic method.
+    Arguments:
+        data:
+            Anything which can be sensibly represented with `__str__` magic method.
 
-    Returns
-    -------
-    Any
-        Data passed in forward
+    Returns:
+        Any
+            Data passed in forward
 
     """
 
     def __init__(self, name: str, log="INFO"):
+        """Initialize `Log`
+    
+        Arguments:
+            name :
+                Name under which data will be logged.
+                It will be in format "{name}: {data}"
+            log :
+                Severity level for logging object's actions.
+                Available levels of logging:
+                    * NONE      0
+                    * TRACE 	5
+                    * DEBUG 	10
+                    * INFO 	20
+                    * SUCCESS 	25
+                    * WARNING 	30
+                    * ERROR 	40
+                    * CRITICAL 	50
+                Default: `INFO`
+        """
         super().__init__()
 
         self.name = name
@@ -510,10 +625,9 @@ class Log(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything which can be sensibly represented with `__str__` magic method.
+        Arguments:
+            data:
+                Anything which can be sensibly represented with `__str__` magic method.
         """
 
         loguru.logger.log(self.log, "{}: {}".format(self.name, data))

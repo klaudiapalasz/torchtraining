@@ -61,14 +61,21 @@ class CPU(Operation):
             accuracy=1
         ) ** tt.device.CPU() ** tt.accumulators.List() ** tt.callbacks.Logger("Accuracy")
 
-    Arguments:
-    memory_format: torch.memory_format, optional
-        The desired memory format of returned Tensor. Default: torch.preserve_format.
-        Default: `torch.preserve_format`
+    Attributes:
+        memory_format: torch.memory_format, optional
+            The desired memory format of returned Tensor. Default: torch.preserve_format.
+            Default: `torch.preserve_format`
 
     """
 
     def __init__(self, memory_format=torch.preserve_format):
+        """Initialize `CPU` object.
+        
+        Arguments:
+            memory_format: torch.memory_format, optional
+                The desired memory format of returned Tensor. Default: torch.preserve_format.
+                Default: `torch.preserve_format`
+        """
         super().__init__()
         self.memory_format = memory_format
 
@@ -85,7 +92,7 @@ class CUDA(Operation):
         **usually** pointlessly pollutes GPU memory.
 
 
-    Atributes:
+    Attributes:
         device: 
             Device index to select. It’s a no-op if this argument is a negative integer or None.
             Default: `None`
@@ -102,19 +109,19 @@ class CUDA(Operation):
     def __init__(
         self, device=None, non_blocking=False, memory_format=torch.preserve_format
     ):
-    """Initialize `CUDA` object.
+        """Initialize `CUDA` object.
     
-    Arguments:
-        device: 
-            Device index to select. It’s a no-op if this argument is a negative integer or None.
-            Default: `None`
-        non_blocking:
-            If True and this copy is between CPU and GPU, the copy may occur asynchronously
-            with respect to the host. For other cases, this argument has no effect.
-            Default: `False`
-        memory_format: torch.memory_format, optional
-            The desired memory format of returned Tensor. Default: torch.preserve_format.
-            Default: `torch.preserve_format`
+        Arguments:
+            device: 
+                Device index to select. It’s a no-op if this argument is a negative integer or None.
+                Default: `None`
+            non_blocking:
+                If True and this copy is between CPU and GPU, the copy may occur asynchronously
+                with respect to the host. For other cases, this argument has no effect.
+                Default: `False`
+            memory_format: torch.memory_format, optional
+                The desired memory format of returned Tensor. Default: torch.preserve_format.
+                Default: `torch.preserve_format`
             
         """
         super().__init__()
@@ -139,7 +146,7 @@ class Device(Operation):
 
     See `example` at the beginning of this section.
 
-    Arguements:
+    Attributes:
         device: 
             Anything which can be used with `torch.Tensor.to` to cast onto
             specified device.
@@ -147,6 +154,13 @@ class Device(Operation):
     """
 
     def __init__(self, device):
+        """Initialize ` Device` object.
+        
+        Arguments:
+            device: 
+                Anything which can be used with `torch.Tensor.to` to cast onto
+                specified device.
+        """        
         super().__init__()
         self.device = device
 

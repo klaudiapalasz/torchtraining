@@ -69,7 +69,7 @@ class BinaryFocal(_Loss):
                 If user wants a summation he should use: `torch.sum`.
                 By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
         """
-    super().__init__()
+        super().__init__()
 
         self.gamma = gamma
         self.weight = weight
@@ -151,7 +151,7 @@ class MulticlassFocal(_Loss):
                 By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
 
         """
-    super().__init__()
+        super().__init__()
 
         self.gamma = gamma
         self.weight = weight
@@ -246,7 +246,7 @@ class SmoothCrossEntropy(_Loss):
         if not 0 <= alpha < 1:
             raise ValueError("smoothing alpha should be in [0, 1) range.")
 
-    super().__init__()
+        super().__init__()
 
         self.alpha = alpha
         self.weight = weight
@@ -337,7 +337,7 @@ class SmoothBinaryCrossEntropy(_Loss):
         if not 0 <= alpha < 1:
             raise ValueError("smoothing alpha should be in [0, 1) range.")
 
-    super().__init__()
+        super().__init__()
 
         self.alpha = alpha
         self.weight = weight
@@ -430,7 +430,7 @@ class QuadrupletLoss(_Loss):
                 If user wants a summation he should use: `torch.sum`.
                 By default, `lambda loss: loss.sum() / loss.shape[0]` is used (mean across examples).
         """
-    super().__init__()
+        super().__init__()
 
         self.alpha1 = alpha1
         self.alpha2 = alpha2

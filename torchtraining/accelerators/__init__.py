@@ -3,9 +3,9 @@
 Accelerators should be instantiated only once and used on top-most
 module (in the following order):
 
-    * epoch (if exists)
-    * iteration (if exists)
-    * step
+- epoch (if exists)
+- iteration (if exists)
+- step
 
 Those are the only objects which can be "piped" into producers, for example::
 
@@ -32,34 +32,49 @@ if utils.modules_exist("horovod", "horovod.torch"):
 
         See `torchtraining.accelerators.horovod` package for more information.
 
-        .. note::
+        !!!note
 
-            **IMPORTANT**: This object needs `horovod` Python package to be visible.
+            __IMPORTANT__: This object needs `horovod` Python package to be visible.
             You can install it with `pip install -U torchtraining[horovod]`.
             Also you should export `CUDA_HOME` variable like this:
             `CUDA_HOME=/opt/cuda pip install -U torchtraining[horovod]` (your path may vary)
 
 
-        Parameters
-        ----------
-        module: torch.nn.Module
-            Module to be broadcasted to all processes.
-        rank: int, optional
-            Root process rank. Default: `0`
-        per_worker_threads: int, optional
-            Number of threads which can be utilized by each process.
-            Default: `pytorch`'s default
-        comm: List, optional
-            List specifying ranks for the communicator, relative to the `MPI_COMM_WORLD`
-            communicator OR the MPI communicator to use. Given communicator will be duplicated.
-            If `None`, Horovod will use MPI_COMM_WORLD Communicator.
-            Default: `None`
+        Attributes:
+            module: 
+                Module to be broadcasted to all processes.
+            rank: 
+                Root process rank. Default: `0`
+            per_worker_threads:
+                Number of threads which can be utilized by each process.
+                Default: `pytorch`'s default
+            comm: 
+                List specifying ranks for the communicator, relative to the `MPI_COMM_WORLD`
+                communicator OR the MPI communicator to use. Given communicator will be duplicated.
+                If `None`, Horovod will use MPI_COMM_WORLD Communicator.
+                Default: `None`
 
         """
 
         def __init__(
             self, model, rank: int = 0, per_worker_threads: int = None, comm=None,
         ):
+            """Initialize `Horovod` object.
+            
+            Arguments:
+                module: 
+                    Module to be broadcasted to all processes.
+                rank: 
+                    Root process rank. Default: `0`
+                per_worker_threads:
+                    Number of threads which can be utilized by each process.
+                    Default: `pytorch`'s default
+                comm: 
+                    List specifying ranks for the communicator, relative to the `MPI_COMM_WORLD`
+                    communicator OR the MPI communicator to use. Given communicator will be duplicated.
+                    If `None`, Horovod will use MPI_COMM_WORLD Communicator.
+                    Default: `None`
+            """
             hvd.init(comm)
 
             if torch.cuda.is_available():

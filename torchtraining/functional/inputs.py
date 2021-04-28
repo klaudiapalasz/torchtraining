@@ -32,25 +32,23 @@ def mixup(
 
         step = TrainStep(criterion, device)
 
-    .. note::
+    !!!note
 
-        **IMPORTANT**: Examples are modified in-place!
+        __IMPORTANT__: Examples are modified in-place!
 
     Arguments
-    ---------
-    inputs: torch.Tensor
-        `torch.Tensor` of shape :math:`(N, *)` and numerical `dtype`.
-    labels: torch.Tensor
-        `torch.Tensor` of shape :math:`(N, *)` and numerical `dtype`.
-    gamma: float
-        Level of mixing between inputs and labels. The smaller the value,
-        the more "concrete" examples are (e.g. for  `0.1` and `cat`, `dog` labels
-        it would be `0.9` cat and `0.1` dog).
+        inputs:
+            `torch.Tensor` of shape :math:`(N, *)` and numerical `dtype`.
+        labels:
+            `torch.Tensor` of shape :math:`(N, *)` and numerical `dtype`.
+        gamma:
+            Level of mixing between inputs and labels. The smaller the value,
+            the more "concrete" examples are (e.g. for  `0.1` and `cat`, `dog` labels
+            it would be `0.9` cat and `0.1` dog).
 
-    Returns
-    -------
-    Tuple(torch.Tensor, torch.Tensor)
-        Inputs and labels after mixup (linear mix with `gamma` strength).
+    Returns:
+        Tuple(torch.Tensor, torch.Tensor)
+            Inputs and labels after mixup (linear mix with `gamma` strength).
 
     """
     if inputs.shape[0] != targets.shape[0]:

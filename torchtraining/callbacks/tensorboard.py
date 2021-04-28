@@ -1,7 +1,7 @@
 """Special type of callbacks focused on `tensorboard` integration.
 
-.. note::
-    **IMPORTANT**: Users need `tensorboard` package installed for this
+!!!note
+    __IMPORTANT__: Users need `tensorboard` package installed for this
     module to exist.
     You can install it via `pip install torchtraining[tensorboard]`
     (additional libraries for `Image`, `Images`, `Video`, `Figure`)
@@ -52,36 +52,36 @@ Can be used similarly to `torchtraining.callbacks.Logger`
         if body is not None:
             docstring += body
 
-        docstring += """
-Parameters
-----------
-writer: torch.utils.tensorboard.SummaryWriter
-    Writer responsible for logging values.
-name: str
-    Name (tag) under which values will be logged into Tensorboard.
-    Can be "/" separated to group values together, e.g. "Classifier/Loss"
-    and "Classifier/Accuracy"
-flush: int
-    Flushes the event file to disk after `flush` steps.
-    Call this method to make sure that all pending events have been written to disk.
-log : str | int, optional
-    Severity level for logging object's actions.
-    Available levels of logging:
-        * NONE          0
-        * TRACE 	5
-        * DEBUG 	10
-        * INFO 	        20
-        * SUCCESS 	25
-        * WARNING 	30
-        * ERROR 	40
-        * CRITICAL 	50
-    Default: `NONE` (no logging, `0` priority)
-*args
-    Variable length arguments passed to `add_{function}` call.
-**kwargs
-    Keyword variable length arguments passed to `add_{function}` call.
+        docstring += 
+    """
+    Arguments:
+        writer: torch.utils.tensorboard.SummaryWriter
+            Writer responsible for logging values.
+        name: str
+            Name (tag) under which values will be logged into Tensorboard.
+            Can be "/" separated to group values together, e.g. "Classifier/Loss"
+            and "Classifier/Accuracy"
+        flush: int
+            Flushes the event file to disk after `flush` steps.
+            Call this method to make sure that all pending events have been written to disk.
+        log : str | int, optional
+            Severity level for logging object's actions.
+            Available levels of logging:
+                - NONE          0
+                - TRACE 	5
+                - DEBUG 	10
+                - INFO 	        20
+                - SUCCESS 	25
+                - WARNING 	30
+                - ERROR 	40
+                - CRITICAL 	50
+            Default: `NONE` (no logging, `0` priority)
+        *args
+            Variable length arguments passed to `add_{function}` call.
+        **kwargs
+            Keyword variable length arguments passed to `add_{function}` call.
 
-        """.format(
+    """.format(
             function=function,
         )
         klass.__doc__ = docstring
@@ -112,10 +112,9 @@ class _Tensorboard(_base.Operation):
 
     def forward(self, *data):
         """
-        Arguments
-        ---------
-        data:
-            Tensor (or a-like) to be logged into Tensorboard
+        Arguments:
+            data:
+                Tensor (or a-like) to be logged into Tensorboard
 
         """
         self._step += 1

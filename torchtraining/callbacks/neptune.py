@@ -1,13 +1,13 @@
 """Integrate `torchtraining` with `neptune.ai <https://neptune.ai/>`__ experiment management tool.
 
-.. note::
+!!!note
 
-    **IMPORTANT**: This module is experimental and may not be working
+    __IMPORTANT__: This module is experimental and may not be working
     correctly. Use at your own risk and report any issues you find.
 
-.. note::
+!!!note
 
-    **IMPORTANT**: This module needs `neptune-client` Python package to be available.
+    __IMPORTANT__: This module needs `neptune-client` Python package to be available.
     You can install it with `pip install -U torchtraining[neptune]`
 
 Usage is similar to `torchtraining.callbacks.Tensorboard`, except creating `project`
@@ -51,12 +51,11 @@ def project(project_qualified_name=None, api_token=None, proxies=None, backend=N
     that can be used to create or list experiments, notebooks, etc.
 
     Extensive documentation (explained optional parameters) is located
-    `here <https://docs.neptune.ai/neptune-client/docs/neptune.html#neptune.init>`__ .
+    [here](https://docs.neptune.ai/neptune-client/docs/neptune.html#neptune.init)
 
-    Returns
-    -------
-    neptune.Project
-        Object that is used to create or list experiments, notebooks, etc.
+    Returns:
+        neptune.Project
+            Object that is used to create or list experiments, notebooks, etc.
 
     """
     return neptune.init(project_qualified_name, api_token, proxies, backend)
@@ -89,15 +88,13 @@ def experiment(
     All parameters are optional.
 
     Extensive documentation (explained optional parameters) is located
-    `here <https://docs.neptune.ai/neptune-client/docs/project.html#neptune.projects.Project.create_experiment>`__
+    [here](https://docs.neptune.ai/neptune-client/docs/project.html#neptune.projects.Project.create_experiment)
 
     Returns:
-    --------
         `neptune.experiments.Experiment` object that is used to manage experiment
-        and log data to it. See `original documentation <https://docsneptune.ai/neptune-client/docs/experiment.html#neptune.experiments.Experiment.log_artifact>`__)
+        and log data to it. See `original documentation [here](https://docsneptune.ai/neptune-client/docs/experiment.html#neptune.experiments.Experiment.log_artifact)
 
     Raises:
-    ------
         `ExperimentValidationError`: When provided arguments are invalid.
         `ExperimentLimitReached`: When experiment limit in the project has been reached.
 
@@ -163,34 +160,41 @@ class _NeptuneOperation(_base.Operation):
 class Artifact(_NeptuneOperation):
     """Save an artifact (file) in experiment storage.
 
-    Parameters
-    ----------
-    destination: str, optional
-        Destination path to save artifact. If `None` artifact name will be used.
-        Default: `None`
-    experiment: `neptune.experiments.Experiment`, optional
-        Instance of experiment to use. If `None`, global `experiment` will be used.
-        Default: `None`
+    Attributes:
+        destination:
+            Destination path to save artifact. If `None` artifact name will be used.
+            Default: `None`
+        experiment:
+            Instance of experiment to use. If `None`, global `experiment` will be used.
+            Default: `None`
 
 
-    Returns
-    -------
-    data
-        Data without any modification
+    Returns:
+        data
+            Data without any modification
 
     """
 
     def __init__(self, destination=None, experiment=None):
+        """Initialize `Artifact` object.
+        
+        Arguments:
+            destination:
+                Destination path to save artifact. If `None` artifact name will be used.
+                Default: `None`
+            experiment:
+                Instance of experiment to use. If `None`, global `experiment` will be used.
+                Default: `None`
+        """
         super().__init__(experiment, "send_artifact")
         self.destination = destination
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: str | IO.Object
-            A path to the file in local filesystem or IO object.
-            It can be open file descriptor or in-memory buffer like io.StringIO or io.BytesIO.
+        Arguments:
+            data:
+                A path to the file in local filesystem or IO object.
+                It can be open file descriptor or in-memory buffer like io.StringIO or io.BytesIO.
         """
         self._method(data, self.destination)
         return data
@@ -199,7 +203,7 @@ class Artifact(_NeptuneOperation):
 class Image(_NeptuneOperation):
     """Log image data in Neptune.
 
-    See `original documentation <https://docs.neptune.ai/_modules/neptune/experiments.html#Experiment.log_image>`__.
+    See `original documentation [here](https://docs.neptune.ai/_modules/neptune/experiments.html#Experiment.log_image)
 
     Example::
 
@@ -225,29 +229,27 @@ class Image(_NeptuneOperation):
         # Also you need to cast to `numpy`
         step ** tt.OnSplittedTensor(tt.cast.Numpy() ** neptune.Image(experiment))
 
-    Parameters
-    ----------
-    log_name: str
-        Name of log (group of images), e.g. "generated images".
-    image_name: str, optional
-        Name of this specific image received in `data`.
-        If `None` consecutive numbers will be used.
-        Default: `None`
-    description: str, optional
-        Textual description of image. If `None` no description.
-        Default: `None`
-    timestamp: time, optional
-        Timestamp to be associated with log entry. Must be Unix time.
-        If None is passed, time.time() (Python 3.6 example) is invoked to obtain timestamp.
-        Default `None`
-    experiment: `neptune.experiments.Experiment`, optional
-        Instance of experiment to use. If `None`, global `experiment` will be used.
-        Default: `None`
+    Attributes:
+        log_name:
+            Name of log (group of images), e.g. "generated images".
+        image_name:
+            Name of this specific image received in `data`.
+            If `None` consecutive numbers will be used.
+            Default: `None`
+        description:
+            Textual description of image. If `None` no description.
+            Default: `None`
+        timestamp:
+            Timestamp to be associated with log entry. Must be Unix time.
+            If None is passed, time.time() (Python 3.6 example) is invoked to obtain timestamp.
+            Default `None`
+        experiment: 
+            Instance of experiment to use. If `None`, global `experiment` will be used.
+            Default: `None`
 
-        Returns
-    -------
-    data
-        Data without any modification
+        Returns:
+        data
+            Data without any modification
 
     """
 
@@ -259,6 +261,27 @@ class Image(_NeptuneOperation):
         timestamp=None,
         experiment=None,
     ):
+        """Initialize `Image` object. 
+        
+        Arguments:
+            log_name: 
+                Name of log (group of images), e.g. "generated images".
+            image_name:
+                Name of this specific image received in `data`.
+                If `None` consecutive numbers will be used.
+                Default: `None`
+            description:
+                Textual description of image. If `None` no description.
+                Default: `None`
+            timestamp:
+                Timestamp to be associated with log entry. Must be Unix time.
+                If None is passed, time.time() (Python 3.6 example) is invoked to obtain timestamp.
+                Default `None`
+            experiment:
+                Instance of experiment to use. If `None`, global `experiment` will be used.
+                Default: `None`
+        """
+        
         super().__init__(experiment, "send_image")
         self.log_name = log_name
         self.image_name = image_name
@@ -272,9 +295,9 @@ class Image(_NeptuneOperation):
         data: PIL image | matplotlib.figure.Figure | str | np.array
             Can be one of:
             * :obj:`PIL image`
-              `Pillow docs <https://pillow.readthedocs.io/en/latest/reference/Image.html#image-module>`_
+              `Pillow docs [here](https://pillow.readthedocs.io/en/latest/reference/Image.html#image-module)
             * :obj:`matplotlib.figure.Figure`
-              `Matplotlib 3.1.1 docs <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html>`_
+              `Matplotlib 3.1.1 docs [here](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html)
             * :obj:`str` - path to image file
             * 2-dimensional :obj:`numpy.array` - interpreted as grayscale image
             * 3-dimensional :obj:`numpy.array` - behavior depends on last dimension
@@ -297,7 +320,7 @@ class Scalar(_NeptuneOperation):
     """Log scalar data in Neptune.
 
     Calls `experiment.log_metric` under the hood.
-    See `original documentation <https://docs.neptune.ai/_modules/neptune/experiments.html#Experiment.log_metric>`__.
+    See `original documentation [here](https://docs.neptune.ai/_modules/neptune/experiments.html#Experiment.log_metric)
 
     Example::
 
@@ -323,38 +346,48 @@ class Scalar(_NeptuneOperation):
         # Also you need to cast to `numpy`
         step ** tt.cast.Item() ** neptune.Image(experiment))
 
-    Parameters
-    ----------
-    log_name: str
-        Name of log (group of images), e.g. "generated images".
-    timestamp: time, optional
-        Timestamp to be associated with log entry. Must be Unix time.
-        If None is passed, time.time() (Python 3.6 example) is invoked to obtain timestamp.
-        Default `None`
-    experiment: `neptune.experiments.Experiment`, optional
-        Instance of experiment to use. If `None`, global `experiment` will be used.
-        Default: `None`
+    Attributes:
+        log_name: 
+            Name of log (group of images), e.g. "generated images".
+        timestamp:
+            Timestamp to be associated with log entry. Must be Unix time.
+            If None is passed, time.time() (Python 3.6 example) is invoked to obtain timestamp.
+            Default `None`
+        experiment: 
+            Instance of experiment to use. If `None`, global `experiment` will be used.
+            Default: `None`
 
-    Returns
-    -------
-    data
-        Data without any modification
+    Returns:
+        data
+            Data without any modification
 
     """
 
     def __init__(
         self, log_name: str, timestamp=None, experiment=None,
     ):
+        """Initialize `Scalar` object.
+        
+        Arguments:
+            log_name: 
+                Name of log (group of images), e.g. "generated images".
+            timestamp:
+                Timestamp to be associated with log entry. Must be Unix time.
+                If None is passed, time.time() (Python 3.6 example) is invoked to obtain timestamp.
+                Default `None`
+            experiment: 
+                Instance of experiment to use. If `None`, global `experiment` will be used.
+                Default: `None`
+        """
         super().__init__(experiment, "send_metric")
         self.log_name = log_name
         self.timestamp = timestamp
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: double
-            Single element Python `double` type
+        Arguments:
+            data: 
+                Single element Python `double` type
 
         """
         self._method(self.log_name, data, None, self.timestamp)
@@ -364,7 +397,7 @@ class Scalar(_NeptuneOperation):
 class Text(_NeptuneOperation):
     """Log text data in Neptune.
 
-    See `original documentation <https://docs.neptune.ai/_modules/neptune/experiments.html#Experiment.log_text>`__.
+    See `original documentation [here](https://docs.neptune.ai/_modules/neptune/experiments.html#Experiment.log_text)
 
     Example::
 
@@ -389,38 +422,48 @@ class Text(_NeptuneOperation):
         # Also you need to cast to `numpy`
         step ** tt.Select(text=1) ** neptune.Text())
 
-    Parameters
-    ----------
-    log_name: str
-        Name of log (group of images), e.g. "generated images".
-    timestamp: time, optional
-        Timestamp to be associated with log entry. Must be Unix time.
-        If None is passed, time.time() (Python 3.6 example) is invoked to obtain timestamp.
-        Default `None`
-    experiment: `neptune.experiments.Experiment`, optional
-        Instance of experiment to use. If `None`, global `experiment` will be used.
-        Default: `None`
+    Attributes:
+        log_name:
+            Name of log (group of images), e.g. "generated images".
+        timestamp:
+            Timestamp to be associated with log entry. Must be Unix time.
+            If None is passed, time.time() (Python 3.6 example) is invoked to obtain timestamp.
+            Default `None`
+        experiment:
+            Instance of experiment to use. If `None`, global `experiment` will be used.
+            Default: `None`
 
-    Returns
-    -------
-    data
-        Data without any modification
+    Returns:
+        data
+            Data without any modification
 
     """
 
     def __init__(
         self, log_name: str, timestamp=None, experiment=None,
     ):
+        """Initialize `Text` object.
+        
+        Arguments:
+            log_name:
+                Name of log (group of images), e.g. "generated images".
+            timestamp:
+                Timestamp to be associated with log entry. Must be Unix time.
+                If None is passed, time.time() (Python 3.6 example) is invoked to obtain timestamp.
+                Default `None`
+            experiment:
+                Instance of experiment to use. If `None`, global `experiment` will be used.
+                Default: `None`
+        """
         super().__init__(experiment, "send_text")
         self.log_name = log_name
         self.timestamp = timestamp
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: str
-            Text to be logged
+        Arguments:
+            data: str
+                Text to be logged
         """
         self._method(self.log_name, data, None, self.timestamp)
         return data
@@ -430,7 +473,7 @@ class Reset(_NeptuneOperation):
     """Resets the log.
 
     Removes all data from the log and enables it to be reused from scratch.
-    See `original documentation <https://docs.neptune.ai/_modules/neptune/experiments.html#Experiment.reset_log>`__.
+    See `original documentation [here](https://docs.neptune.ai/_modules/neptune/experiments.html#Experiment.reset_log)
 
     Example::
 
@@ -455,31 +498,35 @@ class Reset(_NeptuneOperation):
         # Also you need to cast to `numpy`
         step ** tt.Select(text=1) ** neptune.Text())
 
-    Parameters
-    ----------
-    log_name: str
-        Name of log (group of images), e.g. "generated images".
-        If `log` does not exist, error `ChannelDoesNotExist` will be raised.
+    Attributes:
+        log_name:
+            Name of log (group of images), e.g. "generated images".
+            If `log` does not exist, error `ChannelDoesNotExist` will be raised.
 
-    Returns
-    -------
-    data
-        Anything which was passed into it.
+    Returns:
+      data
+         Anything which was passed into it.
 
     """
 
     def __init__(
         self, log_name: str, experiment=None,
     ):
+        """Initialize `Reset` object.
+        
+        Arguments:
+            log_name:
+                Name of log (group of images), e.g. "generated images".
+                If `log` does not exist, error `ChannelDoesNotExist` will be raised.
+        """
         super().__init__(experiment, "reset_log")
         self.log_name = log_name
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything as data will be forwarded
+        Arguments:
+            data:
+                Anything as data will be forwarded
         """
         self._method(self.log_name)
         return data

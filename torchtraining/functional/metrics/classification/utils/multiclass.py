@@ -10,12 +10,11 @@ def dimensions_number_check(output: torch.Tensor, target: torch.Tensor) -> None:
     Output should have one dimension more than target as those are probabilities
     or logits.
 
-    Parameters
-    ----------
-    output : torch.Tensor
-        Usually neural network output
-    target : torch.Tensor
-        Usually desired target
+    Arguments:
+        output : torch.Tensor:
+            Usually neural network output
+        target : torch.Tensor:
+            Usually desired target
 
     """
     if len(output.shape) - 1 != len(target.shape):
@@ -31,12 +30,11 @@ def shape_check(output: torch.Tensor, target: torch.Tensor) -> None:
     """
     Validate output and target shapes (except last dimension).
 
-    Parameters
-    ----------
-    output : torch.Tensor
-        Usually neural network output
-    target : torch.Tensor
-        Usually desired target
+    Arguments:
+        output : torch.Tensor:
+            Usually neural network output
+        target : torch.Tensor:
+            Usually desired target
 
     """
     output_shape = list(output.shape)
@@ -54,12 +52,11 @@ def check(output: torch.Tensor, target: torch.Tensor) -> None:
     """
     Run all multiclass checks.
 
-    Parameters
-    ----------
-    output : torch.Tensor
-        Usually neural network output
-    target : torch.Tensor
-        Usually desired target
+    Arguments:
+        output : torch.Tensor:
+            Usually neural network output
+        target : torch.Tensor:
+            Usually desired target
 
     """
     dimensions_number_check(output, target)
@@ -75,17 +72,15 @@ def categorical(
     Additionally, `target` will be transformed to `long` for faster comparison
     (as it is already a categorical).
 
-    Parameters
-    ----------
-    output : torch.Tensor
-        Usually neural network output
-    target : torch.Tensor
-        Usually desired target
+    Arguments:
+        output : torch.Tensor:
+            Usually neural network output
+        target : torch.Tensor:
+            Usually desired target
 
-    Returns
-    -------
-    typing.Tuple[torch.Tensor, torch.Tensor]:
-        Categorical `output` and `target`.
+    Returns:
+        typing.Tuple[torch.Tensor, torch.Tensor]:
+            Categorical `output` and `target`.
 
     """
     return torch.argmax(output, dim=1).long(), target.long()
@@ -99,17 +94,15 @@ def one_hot(
 
     Both will be transformed to categorical beforehand
 
-    Parameters
-    ----------
-    output : torch.Tensor
-        Usually neural network output
-    target : torch.Tensor
-        Usually desired target
+    Arguments:
+        output : torch.Tensor:
+            Usually neural network output
+        target : torch.Tensor:
+            Usually desired target
 
-    Returns
-    -------
-    typing.Tuple[torch.Tensor, torch.Tensor]:
-        One hot encoded `output` and `target`.
+    Returns:
+        typing.Tuple[torch.Tensor, torch.Tensor]:
+            One hot encoded `output` and `target`.
 
     """
     categorical_output, categorical_target = categorical(output, target)

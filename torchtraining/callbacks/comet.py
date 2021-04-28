@@ -1,13 +1,13 @@
-"""Integrate `torchtraining` with `comet.ml <https://www.comet.ml/site/>`__ experiment management tool.
+"""Integrate `torchtraining` with `comet.ml [https://www.comet.ml/site/](https://www.comet.ml/site/)`__ experiment management tool.
 
-.. note::
+!!!note
 
-    **IMPORTANT**: This module is experimental and may not be working
+    __IMPORTANT__: This module is experimental and may not be working
     correctly. Use at your own risk and report any issues you find.
 
-.. note::
+!!!note
 
-    **IMPORTANT**: This module needs `comet-ml` Python package to be available.
+    __IMPORTANT__: This module needs `comet-ml` Python package to be available.
     You can install it with `pip install -U torchtraining[neptune]`
 
 Usage is similar to `torchtraining.callbacks.Tensorboard`, except creating `Experiment`
@@ -50,28 +50,31 @@ OfflineExperiment = comet_ml.OfflineExperiment
 class Clean(_base.Operation):
     """Clean experiment loggers
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
+    Attributes
+        experiment:
+            Object representing single experiment
 
-    Returns
-    -------
-    Any
-        Data passed initially to the operation.
+    Returns:
+        Any
+            Data passed initially to the operation.
 
     """
 
     def __init__(self, experiment):
+        """Initialize `Clean` object.
+    
+        Arguments
+            experiment:
+                Object representing single experiment
+        """
         super().__init__()
         self.experiment = experiment
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything, will be forwarded
+        Arguments:
+            data:
+                Anything, will be forwarded
         """
         self.experiment.clean()
         return data
@@ -80,31 +83,29 @@ class Clean(_base.Operation):
 class Asset(_base.Operation):
     """Logs the Asset passed during call.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    name: str, optional
-        A custom file name to be displayed. If not provided the `filename`
-        from the file_data argument will be used.
-    overwrite: bool, optional
-        If True will overwrite all existing assets with the same name.
-        Default: `False`
-    copy_to_tmp: bool, optional
-        If file_data is a file-like object, then this flag determines if the file is
-        first copied to a temporary file before upload. If `copy_to_tmp`
-        is False, then it is sent directly to the cloud.
-        Default: `True`
-    step: int, optional
-        Used to associate the asset to a specific step. Default: `None`
-    metadata: typing.Dict, optional
-        Optional. Some additional data to attach to the the asset data.
-        Must be a JSON-encodable dict. Default: `None`
+    Attributes:
+        experiment:
+            Object representing single experiment
+        name:
+            A custom file name to be displayed. If not provided the `filename`
+            from the file_data argument will be used.
+        overwrite:
+            If True will overwrite all existing assets with the same name.
+            Default: `False`
+        copy_to_tmp:
+            If file_data is a file-like object, then this flag determines if the file is
+            first copied to a temporary file before upload. If `copy_to_tmp`
+            is False, then it is sent directly to the cloud.
+            Default: `True`
+        step:
+            Used to associate the asset to a specific step. Default: `None`
+        metadata:
+            Optional. Some additional data to attach to the the asset data.
+            Must be a JSON-encodable dict. Default: `None`
 
-    Returns
-    -------
-    str | File-like
-        Data passed initially to the operation.
+    Returns:
+        str | File-like
+            Data passed initially to the operation.
 
     """
 
@@ -117,6 +118,28 @@ class Asset(_base.Operation):
         step=None,
         metadata=None,
     ):
+        """Initialize `Asset` object.
+        
+        Arguments:  
+            experiment:
+                Object representing single experiment
+            name:
+                A custom file name to be displayed. If not provided the `filename`
+                from the file_data argument will be used.
+            overwrite:
+                If True will overwrite all existing assets with the same name.
+                Default: `False`
+            copy_to_tmp:
+                If file_data is a file-like object, then this flag determines if the file is
+                first copied to a temporary file before upload. If `copy_to_tmp`
+                is False, then it is sent directly to the cloud.
+                Default: `True`
+            step:
+                Used to associate the asset to a specific step. Default: `None`
+            metadata:
+                Optional. Some additional data to attach to the the asset data.
+                Must be a JSON-encodable dict. Default: `None`
+        """
         super().__init__()
         self.experiment = experiment
         self.name = name
@@ -127,10 +150,9 @@ class Asset(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: str | File-like
-            Either the file path of the file you want to log, or a file-like asset.
+        Arguments:
+            data:
+                Either the file path of the file you want to log, or a file-like asset.
         """
         self.experiment.log_asset(
             data, self.name, self.overwrite, self.copy_to_tmp, self.step, self.metadata,
@@ -141,33 +163,48 @@ class Asset(_base.Operation):
 class AssetData(_base.Operation):
     """Log given data (`str`, `binary` or `JSON`).
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    name: str, optional
-        A custom file name to be displayed. If not provided the `filename`
-        from the file_data argument will be used.
-    overwrite: bool, optional
-        If True will overwrite all existing assets with the same name.
-        Default: `False`
-    step: int, optional
-        Used to associate the asset to a specific step. Default: `None`
-    metadata: typing.Dict, optional
-        Optional. Some additional data to attach to the the asset data.
-        Must be a JSON-encodable dict. Default: `None`
+    Attributes:
+        experiment:
+            Object representing single experiment
+        name:
+            A custom file name to be displayed. If not provided the `filename`
+            from the file_data argument will be used.
+        overwrite:
+            If True will overwrite all existing assets with the same name.
+            Default: `False`
+        step:
+            Used to associate the asset to a specific step. Default: `None`
+        metadata:
+            Optional. Some additional data to attach to the the asset data.
+            Must be a JSON-encodable dict. Default: `None`
 
 
-    Returns
-    -------
-    str | File-like
-        Data passed initially to the operation.
+    Returns:
+        str | File-like
+            Data passed initially to the operation.
 
     """
 
     def __init__(
         self, experiment, name=None, overwrite=False, step=None, metadata=None,
     ):
+        """Initialize `Asset Data` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            name:
+                A custom file name to be displayed. If not provided the `filename`
+                from the file_data argument will be used.
+            overwrite:
+                If True will overwrite all existing assets with the same name.
+                Default: `False`
+            step:
+                Used to associate the asset to a specific step. Default: `None`
+            metadata:
+                Optional. Some additional data to attach to the the asset data.
+                Must be a JSON-encodable dict. Default: `None`
+        """
         super().__init__()
         self.experiment = experiment
         self.name = name
@@ -177,10 +214,9 @@ class AssetData(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: str | JSON
-            Data to log
+        Arguments:
+            data:
+                Data to log
         """
         self.experiment.log_asset_data(
             data, self.name, self.overwrite, self.step, self.metadata,
@@ -191,28 +227,40 @@ class AssetData(_base.Operation):
 class AssetFolder(_base.Operation):
     """Logs all the files located in the given folder as assets.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    step: int, optional
-        Used to associate the asset to a specific step. Default: `None`
-    log_file_name: bool, optional
-        If True, log the file path with each file. Default: `False`
-    recursive: bool, optional
-        If `true` recurse folder and save file names.
-        Default: `False`
+    Attributes:
+    
+        experiment:
+            Object representing single experiment
+        step:
+            Used to associate the asset to a specific step. Default: `None`
+        log_file_name:
+            If True, log the file path with each file. Default: `False`
+        recursive: 
+            If `true` recurse folder and save file names.
+            Default: `False`
 
-    Returns
-    -------
-    folder: str
-        Data passed initially to the operation.
+    Returns:
+        folder:
+            Data passed initially to the operation.
 
     """
 
     def __init__(
         self, experiment, step=None, log_file_name=False, recursive=False,
     ):
+        """Initialize `AssetFolder` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            step:
+                Used to associate the asset to a specific step. Default: `None`
+            log_file_name:
+                If True, log the file path with each file. Default: `False`
+            recursive: 
+                If `true` recurse folder and save file names.
+                Default: `False`
+        """
         super().__init__()
         self.experiment = experiment
         self.step = step
@@ -221,11 +269,9 @@ class AssetFolder(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        folder: str
-            Path to the folder to be logged.
-
+        Arguments:
+            folder:
+                Path to the folder to be logged.
         """
         self.experiment.log_asset_folder(
             data, self.step, self.log_file_name, self.recursive
@@ -236,33 +282,31 @@ class AssetFolder(_base.Operation):
 class Audio(_base.Operation):
     """Logs the audio Asset determined by audio data.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    sample_rate: int, optional
-        The sampling rate given to scipy.io.wavfile.write for creating the wav file.
-    name: str, optional
-        A custom file name to be displayed. If not provided the `filename`
-        from the file_data argument will be used.
-    overwrite: bool, optional
-        If True will overwrite all existing assets with the same name.
-        Default: `False`
-    copy_to_tmp: bool, optional
-        If file_data is a file-like object, then this flag determines if the file is
-        first copied to a temporary file before upload. If `copy_to_tmp`
-        is False, then it is sent directly to the cloud.
-        Default: `True`
-    step: int, optional
-        Used to associate the asset to a specific step. Default: `None`
-    metadata: typing.Dict, optional
-        Optional. Some additional data to attach to the the asset data.
-        Must be a JSON-encodable dict. Default: `None`
+    Attributes:
+        experiment:
+            Object representing single experiment
+        sample_rate:
+            The sampling rate given to scipy.io.wavfile.write for creating the wav file.
+        name:
+            A custom file name to be displayed. If not provided the `filename`
+            from the file_data argument will be used.
+        overwrite:
+            If True will overwrite all existing assets with the same name.
+            Default: `False`
+        copy_to_tmp:
+            If file_data is a file-like object, then this flag determines if the file is
+            first copied to a temporary file before upload. If `copy_to_tmp`
+            is False, then it is sent directly to the cloud.
+            Default: `True`
+        step:
+            Used to associate the asset to a specific step. Default: `None`
+        metadata:
+            Optional. Some additional data to attach to the the asset data.
+            Must be a JSON-encodable dict. Default: `None`
 
-    Returns
-    -------
-    data: str | np.array
-        Data passed initially to the operation.
+    Returns:
+        data:
+            Data passed initially to the operation.
 
     """
 
@@ -276,6 +320,19 @@ class Audio(_base.Operation):
         step=None,
         metadata=None,
     ):
+        """Initialize `Audio` object.
+        
+        Arguments 
+            experiment:
+                Object representing single experiment
+            step:
+                Used to associate the asset to a specific step. Default: `None`
+            log_file_name:
+                If True, log the file path with each file. Default: `False`
+            recursive: 
+                If `true` recurse folder and save file names.
+                Default: `False`
+        """
         super().__init__()
         self.experiment = experiment
         self.sample_rate = sample_rate
@@ -287,11 +344,10 @@ class Audio(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: str | np.array
-            Either the file path of the file you want to log, or a numpy array given to
-            `scipy.io.wavfile.write` for wav conversion.
+        Arguments:
+            data:
+                Either the file path of the file you want to log, or a numpy array given to
+                `scipy.io.wavfile.write` for wav conversion.
 
         """
         self.experiment.log_audio(
@@ -309,43 +365,41 @@ class Audio(_base.Operation):
 class ConfusionMatrix(_base.Operation):
     """Logs confusion matrix.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    title: str, optional
-        A custom name to be displayed. By default, it is "Confusion Matrix".
-    row_label: str, optional
-        Label for rows. By default, it is "Actual Category".
-    column_label: str, optional
-        Label for columns. By default, it is "Predicted Category".
-    max_example_per_cell: int, optional
-        Maximum number of examples per cell. By default, it is 25.
-    max_categories: int, optional
-        Max number of columns and rows to use. By default, it is 25.
-    winner_function: Callable(List) -> List, optional
-        A function that takes in an entire list of rows of patterns,
-        and returns the winning category for each row. By default, it is argmax.
-    index_to_example_function: Callable, optional
-        A function that takes an index and returns either a number, a string, a URL, or a
-        {"sample": str, "assetId": str} dictionary.
-        See below for more info.
-        By default, the function returns a number representing the index of the example.
-    cache: bool, optional
-        Should the results of index_to_example_function be cached and reused?
-        By default, cache is `True`.
-    selected: List, optional
-        None, or list of selected category indices.
-        These are the rows/columns that will be shown. By default, select is None.
-        If the number of categories is greater than max_categories, and selected is not provided,
-        then selected will be computed automatically by selecting the most confused categories.
-    kwargs: optional
-        any extra keywords and their values will be passed onto the index_to_example_function.
+    Attributes:
+        experiment:
+            Object representing single experiment
+        title:
+            A custom name to be displayed. By default, it is "Confusion Matrix".
+        row_label:
+            Label for rows. By default, it is "Actual Category".
+        column_label:
+            Label for columns. By default, it is "Predicted Category".
+        max_example_per_cell:
+            Maximum number of examples per cell. By default, it is 25.
+        max_categories:
+            Max number of columns and rows to use. By default, it is 25.
+        winner_function:
+            A function that takes in an entire list of rows of patterns,
+            and returns the winning category for each row. By default, it is argmax.
+        index_to_example_function:
+            A function that takes an index and returns either a number, a string, a URL, or a
+            {"sample": str, "assetId": str} dictionary.
+            See below for more info.
+            By default, the function returns a number representing the index of the example.
+        cache:
+            Should the results of index_to_example_function be cached and reused?
+            By default, cache is `True`.
+        selected:
+            None, or list of selected category indices.
+            These are the rows/columns that will be shown. By default, select is None.
+            If the number of categories is greater than max_categories, and selected is not provided,
+            then selected will be computed automatically by selecting the most confused categories.
+        kwargs:
+            any extra keywords and their values will be passed onto the index_to_example_function.
 
-    Returns
-    -------
-    data: List[List[double]]
-        Data passed initially to the operation.
+    Returns:
+        data:
+            Data passed initially to the operation.
 
     """
 
@@ -365,6 +419,42 @@ class ConfusionMatrix(_base.Operation):
         step=None,
         **kwargs
     ):
+        """Initialize `ConfusionMatrix` object. 
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            title:
+                A custom name to be displayed. By default, it is "Confusion Matrix".
+            row_label:
+                Label for rows. By default, it is "Actual Category".
+            column_label:
+                Label for columns. By default, it is "Predicted Category".
+            max_example_per_cell:
+                Maximum number of examples per cell. By default, it is 25.
+            max_categories:
+                Max number of columns and rows to use. By default, it is 25.
+            winner_function:
+                A function that takes in an entire list of rows of patterns,
+                and returns the winning category for each row. By default, it is argmax.
+            index_to_example_function:
+                A function that takes an index and returns either a number, a string, a URL, or a
+                {"sample": str, "assetId": str} dictionary.
+                See below for more info.
+                By default, the function returns a number representing the index of the example.
+            cache:
+                Should the results of index_to_example_function be cached and reused?
+                By default, cache is `True`.
+            selected:
+                None, or list of selected category indices.
+                These are the rows/columns that will be shown. By default, select is None.
+                If the number of categories is greater than max_categories, and selected is not provided,
+                then selected will be computed automatically by selecting the most confused categories.
+            kwargs:
+                any extra keywords and their values will be passed onto the index_to_example_function.
+        """
+        
+        
         super().__init__()
         self.experiment = experiment
         self.title = title
@@ -382,10 +472,9 @@ class ConfusionMatrix(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: List[List[double]]
-            Matrix-like list contianing `confusion` matrix.
+        Arguments:
+            data:
+                Matrix-like list contianing `confusion` matrix.
 
         """
         self.experiment.log_confusion_matrix(
@@ -412,27 +501,37 @@ class ConfusionMatrix(_base.Operation):
 class Curve(_base.Operation):
     """Log timeseries data.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    name: str
-        Name of data
-    overwrite: bool, optional
-        If True overwrite previous log. Default: `False`
-    step: int, optional
-        Step value. Default: `None`
+    Attributes:
+        experiment:
+            Object representing single experiment
+        name:
+            Name of data
+        overwrite:
+            If True overwrite previous log. Default: `False`
+        step:
+            Step value. Default: `None`
 
     Returns
-    -------
-    data: Tuple(List[Number], List[Number])
-        Data passed initially to operation
+        data: 
+            Data passed initially to operation
 
     """
 
     def __init__(
         self, experiment, name=None, overwrite=False, step=None,
     ):
+        """Initialize `Curve` object.
+        
+         Arguments:
+            experiment:
+                Object representing single experiment
+            name:
+                Name of data
+            overwrite:
+                If True overwrite previous log. Default: `False`
+            step:
+                Step value. Default: `None`
+        """
         super().__init__()
         self.experiment = experiment
         self.name = name
@@ -441,11 +540,10 @@ class Curve(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Tuple(List[Number], List[Number])
-            Either the file path of the file you want to log, or a numpy array given to
-            `scipy.io.wavfile.write` for wav conversion.
+        Arguments:
+            data:
+                Either the file path of the file you want to log, or a numpy array given to
+                `scipy.io.wavfile.write` for wav conversion.
         """
         self.experiment.log_curve(
             self.name, *data, self.overwrite, self.step,
@@ -458,29 +556,27 @@ class Embedding(_base.Operation):
 
     This feature is currently deemed experimental.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    image_data: List[Array] | Images, optional
-        List of arrays or Images
-    image_size: int, optional (required if image_data is given)
-        The size of each image
-    image_preprocess_function: Callable, optional
-        If image_data is an array, apply this function to each element first
-    image_transparent_color: Tuple, optional
-        (red, green, blue) tuple
-    image_background_color_function: Callable(int) -> Tuple(red, green, blue), optional
-        A function that takes an index, and returns a (red, green, blue) color tuple
-    title: str, optional
-        Name of tensor
-    template_filename: str, optional
-        name of template JSON file
+    Attributes:
+        experiment:
+            Object representing single experiment
+        image_data:
+            List of arrays or Images
+        image_size:
+            The size of each image
+        image_preprocess_function:
+            If image_data is an array, apply this function to each element first
+        image_transparent_color: 
+            (red, green, blue) tuple
+        image_background_color_function:
+            A function that takes an index, and returns a (red, green, blue) color tuple
+        title:
+            Name of tensor
+        template_filename:
+            name of template JSON file
 
-    Returns
-    -------
-    data: Tuple(torch.Tensor, torch.Tensor)
-        Tensors to visualize in 3D and labels for each tensor.
+    Returns:
+        data:
+            Tensors to visualize in 3D and labels for each tensor.
 
     """
 
@@ -496,6 +592,26 @@ class Embedding(_base.Operation):
         template_filename="template_projector_config.json",
         group=None,
     ):
+        """Initialize `Embedding` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            image_data:
+                List of arrays or Images
+            image_size:
+                The size of each image
+            image_preprocess_function:
+                If image_data is an array, apply this function to each element first
+            image_transparent_color: 
+                (red, green, blue) tuple
+            image_background_color_function:
+                A function that takes an index, and returns a (red, green, blue) color tuple
+            title:
+                Name of tensor
+            template_filename:
+                name of template JSON file
+        """
 
         super().__init__()
         self.experiment = experiment
@@ -511,10 +627,9 @@ class Embedding(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Tuple(torch.Tensor, torch.Tensor)
-            Tensors to visualize in 3D and labels for each tensor.
+        Arguments:
+            data:
+                Tensors to visualize in 3D and labels for each tensor.
         """
         self.experiment.log_embedding(
             *data,
@@ -533,26 +648,37 @@ class Embedding(_base.Operation):
 class Figure(_base.Operation):
     """Logs the global Pyplot figure or the passed one and upload its svg version to the backend.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    figure_name: str, optional
-        Name of the figure
-    overwrite: bool, optional
-        If another figure with the same name exists, it will be overwritten if overwrite is set to True.
-        Default: `False`
-    step: int, optional
-        Used to associate figure to a specific step.
+    Attributes:
+        experiment:
+            Object representing single experiment
+        figure_name:
+            Name of the figure
+        overwrite:
+            If another figure with the same name exists, it will be overwritten if overwrite is set to True.
+            Default: `False`
+        step:
+            Used to associate figure to a specific step.
 
-    Returns
-    -------
-    data: figure, optional.
-        Data passed initially to operation.
+    Returns:
+        data:
+            Data passed initially to operation.
 
     """
 
     def __init__(self, experiment, figure_name=None, overwrite=False, step=None):
+        """Initialize `Figure` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            figure_name:
+                Name of the figure
+            overwrite: 
+                If another figure with the same name exists, it will be overwritten if overwrite is set to True.
+                Default: `False`
+            step:
+                Used to associate figure to a specific step.
+        """
 
         super().__init__()
         self.experiment = experiment
@@ -563,11 +689,10 @@ class Figure(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: figure, optional.
-            The figure you want to log. If `None` passed,
-            the global pyplot figure will be logged and uploaded
+        Arguments:
+            data:
+                The figure you want to log. If `None` passed,
+                the global pyplot figure will be logged and uploaded
         """
         self.experiment.log_figure(
             self.figure_name, data, self.overwrite, self.step,
@@ -581,25 +706,35 @@ class Histogram3d(_base.Operation):
     Calling this method multiple times with the same name and incremented steps
     will add additional histograms to the 3D chart on Comet.ml.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    name: str, optional
-        Name of summary
-    step: int, optional.
-        Used as the Z axis when plotting on Comet.ml.
-    **kwargs:
-        Additional keyword arguments for histogram.
+    Attributes:
+        experiment:
+            Object representing single experiment
+        name:
+            Name of summary
+        step:
+            Used as the Z axis when plotting on Comet.ml.
+        **kwargs:
+            Additional keyword arguments for histogram.
 
-    Returns
-    -------
-    data: List | Tuple | Array | Histogram object
-        Summarization of histogram (passed to `forward`).
+    Returns:
+        data:
+            Summarization of histogram (passed to `forward`).
 
     """
 
     def __init__(self, experiment, name=None, step=None, **kwargs):
+        """Initialize `Histogram3d` object.
+        
+        Arguments
+            experiment:
+                Object representing single experiment
+            name:
+                Name of summary
+            step:
+                Used as the Z axis when plotting on Comet.ml.
+            **kwargs:
+                Additional keyword arguments for histogram.
+        """
         super().__init__()
         self.experiment = experiment
 
@@ -609,10 +744,9 @@ class Histogram3d(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: List | Tuple | Array | Histogram object
-            Summarization of histogram
+        Arguments:
+            data:
+                Summarization of histogram
         """
         self.experiment.log_histogram_3d(data, self.name, self.step, **self.kwargs)
         return data
@@ -621,48 +755,46 @@ class Histogram3d(_base.Operation):
 class Image(_base.Operation):
     """Logs the image. Images are displayed on the Graphics tab on Comet.ml.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    name: str, optional
-        A custom name to be displayed on the dashboard.
-        If not provided the filename from the image_data argument will be used if it is a path.
-    overwrite: bool, optional
-        If another image with the same name exists, it will be overwritten if overwrite is set to True.
-    image_format: str, optional
-        Default: 'png'. If the image_data is actually something that can be turned
-        into an image, this is the format used. Typical values include 'png' and 'jpg'.
-    image_scale: float, optional
-        Default: 1.0. If the image_data is actually something that can be turned
-        into an image, this will be the new scale of the image.
-    image_shape: Tuple, optional
-        Default: None. If the image_data is actually something that can be
-        turned into an image, this is the new shape of the array. Dimensions are (width, height).
-    image_colormap: str, optional
-        If the image_data is actually something that can be turned into an image,
-        this is the colormap used to colorize the matrix.
-    image_minmax: (Number, Number), optional
-        If the image_data is actually something that can be turned into an image,
-        this is the (min, max) used to scale the values.
-        Otherwise, the image is autoscaled between (array.min, array.max).
-    image_channels: str, optional. Default 'last'.
-        If the image_data is actually something that can be turned into an image,
-        this is the setting that indicates where the color information is in the format of the 2D data.
-        'last' indicates that the data is in (rows, columns, channels)
-        where 'first' indicates (channels, rows, columns).
-    copy_to_tmp: bool, optional
-        If image_data is not a file path, then this flag determines if the image
-        is first copied to a temporary file before upload.
-        If copy_to_tmp is False, then it is sent directly to the cloud.
-        Default: `True`
-    step: int, optional
-        Used to associate the audio asset to a specific step. Default: `None`
+    Attributes:
+        experiment:
+            Object representing single experiment
+        name:
+            A custom name to be displayed on the dashboard.
+            If not provided the filename from the image_data argument will be used if it is a path.
+        overwrite:
+            If another image with the same name exists, it will be overwritten if overwrite is set to True.
+        image_format:
+            Default: 'png'. If the image_data is actually something that can be turned
+            into an image, this is the format used. Typical values include 'png' and 'jpg'.
+        image_scale:
+            Default: 1.0. If the image_data is actually something that can be turned
+            into an image, this will be the new scale of the image.
+        image_shape:
+            Default: None. If the image_data is actually something that can be
+            turned into an image, this is the new shape of the array. Dimensions are (width, height).
+        image_colormap:
+            If the image_data is actually something that can be turned into an image,
+            this is the colormap used to colorize the matrix.
+        image_minmax:
+            If the image_data is actually something that can be turned into an image,
+            this is the (min, max) used to scale the values.
+            Otherwise, the image is autoscaled between (array.min, array.max).
+        image_channels:
+            If the image_data is actually something that can be turned into an image,
+            this is the setting that indicates where the color information is in the format of the 2D data.
+            'last' indicates that the data is in (rows, columns, channels)
+            where 'first' indicates (channels, rows, columns).
+        copy_to_tmp:
+            If image_data is not a file path, then this flag determines if the image
+            is first copied to a temporary file before upload.
+            If copy_to_tmp is False, then it is sent directly to the cloud.
+            Default: `True`
+        step:
+            Used to associate the audio asset to a specific step. Default: `None`
 
-    Returns
-    -------
-    data: Multiple objects
-        See `forward` for possibilities
+    Returns:
+        data:
+            See `forward` for possibilities
 
     """
 
@@ -680,6 +812,45 @@ class Image(_base.Operation):
         copy_to_tmp=True,
         step=None,
     ):
+        """Initialize `Image` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            name:
+                A custom name to be displayed on the dashboard.
+                If not provided the filename from the image_data argument will be used if it is a path.
+            overwrite:
+                If another image with the same name exists, it will be overwritten if overwrite is set to True.
+            image_format:
+                Default: 'png'. If the image_data is actually something that can be turned
+                into an image, this is the format used. Typical values include 'png' and 'jpg'.
+            image_scale:
+                Default: 1.0. If the image_data is actually something that can be turned
+                into an image, this will be the new scale of the image.
+            image_shape:
+                Default: None. If the image_data is actually something that can be
+                turned into an image, this is the new shape of the array. Dimensions are (width, height).
+            image_colormap:
+                If the image_data is actually something that can be turned into an image,
+                this is the colormap used to colorize the matrix.
+            image_minmax:
+                If the image_data is actually something that can be turned into an image,
+                this is the (min, max) used to scale the values.
+                Otherwise, the image is autoscaled between (array.min, array.max).
+            image_channels:
+                If the image_data is actually something that can be turned into an image,
+                this is the setting that indicates where the color information is in the format of the 2D data.
+                'last' indicates that the data is in (rows, columns, channels)
+                where 'first' indicates (channels, rows, columns).
+            copy_to_tmp:
+                If image_data is not a file path, then this flag determines if the image
+                is first copied to a temporary file before upload.
+                If copy_to_tmp is False, then it is sent directly to the cloud.
+                Default: `True`
+            step:
+                Used to associate the audio asset to a specific step. Default: `None`
+        """    
         super().__init__()
 
         self.experiment = experiment
@@ -697,17 +868,16 @@ class Image(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Multiple objects
-            One of:
-                * a path (string) to an image
-                * a file-like object containing an image
-                * a numpy matrix
-                * a TensorFlow tensor
-                * a PyTorch tensor
-                * a list or tuple of values
-                * a PIL Image
+        Arguments:
+            data:
+                One of:
+                    - a path (string) to an image
+                    - a file-like object containing an image
+                    - a numpy matrix
+                    - a TensorFlow tensor
+                    - a PyTorch tensor
+                    - a list or tuple of values
+                    - a PIL Image
 
         """
         self.experiment.log_image(
@@ -731,28 +901,41 @@ class Scalar(_base.Operation):
 
     Usually used to log metric values (like `accuracy`)
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    name: str
-        Name of scalar / metric.
-    step: int, optional
-        Used as the X axis when plotting on comet.ml
-    epoch: int, optional
-        Used as the X axis when plotting on comet.ml
-    include_context: bool, optional
-        If set to True (the default), the current context will be logged along
-        the metric.
+    Attributes:
+        experiment:
+            Object representing single experiment
+        name: 
+            Name of scalar / metric.
+        step:
+            Used as the X axis when plotting on comet.ml
+        epoch:
+            Used as the X axis when plotting on comet.ml
+        include_context:
+            If set to True (the default), the current context will be logged along
+            the metric.
 
-    Returns
-    -------
-    data: Number
-        Value passed to `forward`
+    Returns:
+        data:
+            Value passed to `forward`
 
     """
 
     def __init__(self, experiment, name, step=None, epoch=None, include_context=True):
+        """Initialize `Scalar` object.
+
+        Arguments:
+            experiment:
+                Object representing single experiment
+            name: 
+                Name of scalar / metric.
+            step:
+                Used as the X axis when plotting on comet.ml
+            epoch:
+                Used as the X axis when plotting on comet.ml
+            include_context:
+                If set to True (the default), the current context will be logged along
+                the metric.
+        """        
         super().__init__()
 
         self.experiment = experiment
@@ -764,10 +947,9 @@ class Scalar(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Number
-            Value to log
+        Arguments:
+            data: 
+                Value to log
         """
         self.experiment.log_metric(
             self.name, data, self.step, self.epoch, self.include_context
@@ -781,25 +963,35 @@ class Scalars(_base.Operation):
 
     Usually used to log metric values (like `accuracy`)
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    prefix: str, optional
-        Name of prefix used when logging into comet.ml
-    step: int, optional
-        Used as the X axis when plotting on comet.ml
-    epoch: int, optional
-        Used as the X axis when plotting on comet.ml
+    Attributes:
+        experiment:
+            Object representing single experiment
+        prefix:
+            Name of prefix used when logging into comet.ml
+        step:
+            Used as the X axis when plotting on comet.ml
+        epoch:
+            Used as the X axis when plotting on comet.ml
 
-    Returns
-    -------
-    data: Dict
-        Dictionary passed to `forward`
+    Returns:
+        data:
+            Dictionary passed to `forward`
 
     """
 
     def __init__(self, experiment, prefix=None, step=None, epoch=None):
+        """Initialize `Scalars` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            prefix:
+                Name of prefix used when logging into comet.ml
+            step:
+                Used as the X axis when plotting on comet.ml
+            epoch:
+                Used as the X axis when plotting on comet.ml
+        """
         super().__init__()
 
         self.experiment = experiment
@@ -810,10 +1002,9 @@ class Scalars(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Dict
-            Dictionary with values to log
+        Arguments:
+            data: Dict
+                Dictionary with values to log
         """
         self.experiment.log_metrics(data, self.prefix, self.step, self.epoch)
         return data
@@ -824,28 +1015,31 @@ class Other(_base.Operation):
 
     Useful for reporting datasets attributes, datasets path, unique identifiers etc.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
+    Attributes:
+        experiment:
+            Object representing single experiment
 
-    Returns
-    -------
-    data: Tuple[Any, Any]
-        Tuple with `key` and `value`
+    Returns:
+        data:
+            Tuple with `key` and `value`
 
     """
 
     def __init__(self, experiment):
+        """Initialize `Other` object.
+    
+        Arguments:
+            experiment:
+                Object representing single experiment
+        """
         super().__init__()
         self.experiment = experiment
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Tuple[Any, Any]
-            Tuple with `key` and `value`
+        Arguments:
+            data:
+                Tuple with `key` and `value`
         """
         self.experiment.log_other(*data)
         return data
@@ -856,28 +1050,31 @@ class Others(_base.Operation):
 
     Useful for reporting datasets attributes, datasets path, unique identifiers etc.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
+    Attributes:
+        experiment: Experiment
+            Object representing single experiment
 
-    Returns
-    -------
-    data: Dict[Any, Any]
-        Dict with any `keys` and `values`
+    Returns:
+        data:
+            Dict with any `keys` and `values`
 
     """
 
     def __init__(self, experiment):
+        """Initialize `Others` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+        """
         super().__init__()
         self.experiment = experiment
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Dict[Any, Any]
-            Dict with any `keys` and `values`
+        Arguments:
+            data:
+                Dict with any `keys` and `values`
         """
         self.experiment.log_others(data)
         return data
@@ -888,20 +1085,18 @@ class Table(_base.Operation):
 
     These strings appear on the Text Tab in the Comet UI.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    filename: str
-        Filename ending in ".csv", or ".tsv"
-    headers: bool | List
-        If True, will add column headers automatically if tabular_data is given;
-        if False, no headers will be added; if list then it will be used as headers.
+    Attributes:
+        experiment:
+            Object representing single experiment
+        filename:
+            Filename ending in ".csv", or ".tsv"
+        headers:
+            If True, will add column headers automatically if tabular_data is given;
+            if False, no headers will be added; if list then it will be used as headers.
 
-    Returns
-    -------
-    data: tensor | List[List]
-        Data received in `forward`
+    Returns:
+        data:
+            Data received in `forward`
 
     """
 
@@ -911,6 +1106,17 @@ class Table(_base.Operation):
         filename: str,
         headers: typing.Union[bool, typing.List] = False,
     ):
+        """Initialize `Table` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            filename:
+                Filename ending in ".csv", or ".tsv"
+            headers:
+                If True, will add column headers automatically if tabular_data is given;
+                if False, no headers will be added; if list then it will be used as headers.
+        """
         super().__init__()
         self.experiment = experiment
 
@@ -919,10 +1125,9 @@ class Table(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: tensor | List[List]
-            Data that can be interpreted as 2D tabular data.
+        Arguments:
+            data:
+                Data that can be interpreted as 2D tabular data.
 
         """
         self.experiment.log_table(self.filename, data, self.header)
@@ -934,23 +1139,31 @@ class Text(_base.Operation):
 
     These strings appear on the Text Tab in the Comet UI.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    step: int, optional
-        Used to associate text to a specific step
-    metadata: JSON-like, optional
-        Additional data attached to text.
+    Attributes:
+        experiment:
+            Object representing single experiment
+        step:
+            Used to associate text to a specific step
+        metadata:
+            Additional data attached to text.
 
-    Returns
-    -------
-    data: str
-        Received text
+    Returns:
+        data:
+            Received text
 
     """
 
     def __init__(self, experiment, step: int = None, metadata=None):
+        """Initialize `Text` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            step:
+                Used to associate text to a specific step
+            metadata:
+                Additional data attached to text.
+        """
         super().__init__()
         self.experiment = experiment
 
@@ -959,10 +1172,9 @@ class Text(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: str
-            Text to be stored
+        Arguments:
+            data:
+                Text to be stored
 
         """
         self.experiment.log_text(data, self.step, self.metadata)
@@ -972,26 +1184,34 @@ class Text(_base.Operation):
 class Notification(_base.Operation):
     """Send yourself a notification through email when an experiment ends.
 
-    Parameters
-    ----------
-    experiment: Experiment
-        Object representing single experiment
-    title: str
-        Subject of the email
-    status: str
-        Final status of the experiment.
-        Typically, something like "finished", "completed" or "aborted".
-    additional_data: dict
-        Dictionary of key/values to notify.
+    Attributes:
+        experiment:
+            Object representing single experiment
+        title:
+            Subject of the email
+        status:
+            Final status of the experiment.
+            Typically, something like "finished", "completed" or "aborted".
+        additional_data:
+            Dictionary of key/values to notify.
 
-    Returns
-    -------
-    data: Any
-        Anything passed to forward
+    Returns:
+        data:
+            Anything passed to forward
 
     """
 
     def __init__(self, experiment, title, status=None, additional_data=None):
+        """Initialize `Notification` object.
+        
+        Arguments:
+            experiment:
+                Object representing single experiment
+            step:
+                Used to associate text to a specific step
+            metadata:
+                Additional data attached to text.
+        """
         super().__init__()
         self.experiment = experiment
 
@@ -1001,10 +1221,9 @@ class Notification(_base.Operation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: Any
-            Anything as it's not send to the function, just passes through
+        Arguments:
+            data:
+                Anything as it's not send to the function, just passes through
 
         """
         self.experiment.log_text(self.title, self.status, self.additional_data)

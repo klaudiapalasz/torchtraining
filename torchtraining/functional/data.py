@@ -24,21 +24,19 @@ def random_split(
 
     Above would be split dataset into 80% train and 20% validation.
 
-    Arguments
-    ---------
-    dataset: torch.utils.data.Dataset
-        Dataset to be split
-    *p: float
-        Floating point values in the `[0, 1]`. All of them should sum to `1`
-        (if not they will be normalized to `[0, 1]` range). Split dataset
-        according to those proportions.
-    generator: Generator
-        Generator used for the random permutation.
+    Arguments:
+        dataset: torch.utils.data.Dataset
+            Dataset to be split
+        *p: float
+            Floating point values in the `[0, 1]`. All of them should sum to `1`
+            (if not they will be normalized to `[0, 1]` range). Split dataset
+            according to those proportions.
+        generator: Generator
+            Generator used for the random permutation.
 
-    Returns
-    -------
-    Tuple[torch.utils.data.Dataset]
-        Tuple containing splitted datasets.
+    Returns:
+        Tuple[torch.utils.data.Dataset]
+            Tuple containing splitted datasets.
 
     """
     if len(p) < 2:

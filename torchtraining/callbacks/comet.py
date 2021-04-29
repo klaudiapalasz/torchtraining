@@ -1,4 +1,4 @@
-"""Integrate `torchtraining` with `comet.ml [https://www.comet.ml/site/](https://www.comet.ml/site/)`__ experiment management tool.
+"""Integrate `torchtraining` with `comet.ml [here](https://www.comet.ml/site/) experiment management tool.
 
 !!!note
 

@@ -6,7 +6,7 @@ def random_split(
 ):
     """Randomly split a dataset into non-overlapping new datasets of given proportions.
 
-    Works like `torch.utils.data.random_split` **except** data is splitted on
+    Works like `torch.utils.data.random_split` __except__ data is splitted on
     [0, 1] proportions instead of length.
 
     Example::
@@ -25,13 +25,13 @@ def random_split(
     Above would be split dataset into 80% train and 20% validation.
 
     Arguments:
-        dataset: torch.utils.data.Dataset
+        dataset:
             Dataset to be split
-        *p: float
+        *p:
             Floating point values in the `[0, 1]`. All of them should sum to `1`
             (if not they will be normalized to `[0, 1]` range). Split dataset
             according to those proportions.
-        generator: Generator
+        generator:
             Generator used for the random permutation.
 
     Returns:

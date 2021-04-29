@@ -62,7 +62,7 @@ class CPU(Operation):
         ) ** tt.device.CPU() ** tt.accumulators.List() ** tt.callbacks.Logger("Accuracy")
 
     Attributes:
-        memory_format: torch.memory_format, optional
+        memory_format:
             The desired memory format of returned Tensor. Default: torch.preserve_format.
             Default: `torch.preserve_format`
 
@@ -72,7 +72,7 @@ class CPU(Operation):
         """Initialize `CPU` object.
         
         Arguments:
-            memory_format: torch.memory_format, optional
+            memory_format: 
                 The desired memory format of returned Tensor. Default: torch.preserve_format.
                 Default: `torch.preserve_format`
         """
@@ -88,8 +88,8 @@ class CUDA(Operation):
 
     !!!note
 
-        __IMPORTANT__: This object **USUALLY SHOULDN'T BE USED** as it
-        **usually** pointlessly pollutes GPU memory.
+        __IMPORTANT__: This object __USUALLY SHOULDN'T BE USED__ as it
+        __usually__ pointlessly pollutes GPU memory.
 
 
     Attributes:
@@ -140,8 +140,8 @@ class Device(Operation):
 
     !!!note
 
-        __IMPORTANT__: This object **USUALLY SHOULDN'T BE USED** as it
-        **usually** pointlessly pollutes device memory (unless it's CPU,
+        __IMPORTANT__: This object __USUALLY SHOULDN'T BE USED__ as it
+        __usually__ pointlessly pollutes device memory (unless it's CPU,
         in such case simply use `torchtraining.device.CPU()`).
 
     See `example` at the beginning of this section.

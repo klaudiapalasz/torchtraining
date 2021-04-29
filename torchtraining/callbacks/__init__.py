@@ -111,14 +111,14 @@ class Save(_base.Operation):
         log :
                 Severity level for logging object's actions.
                 Available levels of logging:
-                    * NONE      0
-                    * TRACE 	5
-                    * DEBUG 	10
-                    * INFO 	20
-                    * SUCCESS 	25
-                    * WARNING 	30
-                    * ERROR 	40
-                    * CRITICAL 	50
+                    - NONE      0
+                    - TRACE 	5
+                    - DEBUG 	10
+                    - INFO 	20
+                    - SUCCESS 	25
+                    - WARNING 	30
+                    - ERROR 	40
+                    - CRITICAL 	50
                 Default: `INFO`
 
 
@@ -158,14 +158,14 @@ class Save(_base.Operation):
             log :
                     Severity level for logging object's actions.
                     Available levels of logging:
-                    * NONE      0
-                    * TRACE 	5
-                    * DEBUG 	10
-                    * INFO 	20
-                    * SUCCESS 	25
-                    * WARNING 	30
-                    * ERROR 	40
-                    * CRITICAL 	50
+                    - NONE      0
+                    - TRACE 	5
+                    - DEBUG 	10
+                    - INFO 	20
+                    - SUCCESS 	25
+                    - WARNING 	30
+                    - ERROR 	40
+                    - CRITICAL 	50
                     Default: `INFO`
         """
         super().__init__()
@@ -224,14 +224,14 @@ class TimeStopping(_base.Operation):
         log :
                 Severity level for logging object's actions.
                 Available levels of logging:
-                    * NONE      0
-                    * TRACE 	5
-                    * DEBUG 	10
-                    * INFO 	20
-                    * SUCCESS 	25
-                    * WARNING 	30
-                    * ERROR 	40
-                    * CRITICAL 	50
+                    - NONE      0
+                    - TRACE 	5
+                    - DEBUG 	10
+                    - INFO 	20
+                    - SUCCESS 	25
+                    - WARNING 	30
+                    - ERROR 	40
+                    - CRITICAL 	50
                 Default: `INFO`
 
 
@@ -252,14 +252,14 @@ class TimeStopping(_base.Operation):
             log :
                     Severity level for logging object's actions.
                     Available levels of logging:
-                        * NONE      0
-                        * TRACE 	5
-                        * DEBUG 	10
-                        * INFO 	20
-                        * SUCCESS 	25
-                        * WARNING 	30
-                        * ERROR 	40
-                        * CRITICAL 	50
+                        - NONE      0
+                        - TRACE 	5
+                        - DEBUG 	10
+                        - INFO 	20
+                        - SUCCESS 	25
+                        - WARNING 	30
+                        - ERROR 	40
+                        - CRITICAL 	50
                     Default: `INFO`
         """
         super().__init__()
@@ -300,14 +300,14 @@ class TerminateOnNan(_base.Operation):
         log : 
                 Severity level for logging object's actions.
                 Available levels of logging:
-                    * NONE      0
-                    * TRACE 	5
-                    * DEBUG 	10
-                    * INFO 	20
-                    * SUCCESS 	25
-                    * WARNING 	30
-                    * ERROR 	40
-                    * CRITICAL 	50
+                    - NONE      0
+                    - TRACE 	5
+                    - DEBUG 	10
+                    - INFO 	20
+                    - SUCCESS 	25
+                    - WARNING 	30
+                    - ERROR 	40
+                    - CRITICAL 	50
                 Default: `INFO`
     
     Returns:
@@ -327,14 +327,14 @@ class TerminateOnNan(_base.Operation):
             log :
                     Severity level for logging object's actions.
                     Available levels of logging:
-                        * NONE      0
-                        * TRACE 	5
-                        * DEBUG 	10
-                        * INFO 	20
-                        * SUCCESS 	25
-                        * WARNING 	30
-                        * ERROR 	40
-                        * CRITICAL 	50
+                        - NONE      0
+                        - TRACE 	5
+                        - DEBUG 	10
+                        - INFO 	20
+                        - SUCCESS 	25
+                        - WARNING 	30
+                        - ERROR 	40
+                        - CRITICAL 	50
                     Default: `INFO`
         """
         super().__init__()
@@ -387,14 +387,14 @@ class EarlyStopping(_base.Operation):
         log : 
             Severity level for logging object's actions.
             Available levels of logging:
-                * NONE      0
-                * TRACE 	5
-                * DEBUG 	10
-                * INFO 	20
-                * SUCCESS 	25
-                * WARNING 	30
-                * ERROR 	40
-                * CRITICAL 	50
+                - NONE      0
+                - TRACE 	5
+                - DEBUG 	10
+                - INFO 	20
+                - SUCCESS 	25
+                - WARNING 	30
+                - ERROR 	40
+                - CRITICAL 	50
             Default: `INFO`
 
     Returns:
@@ -426,14 +426,14 @@ class EarlyStopping(_base.Operation):
             log : 
                 Severity level for logging object's actions.
                 Available levels of logging:
-                    * NONE      0
-                    * TRACE 	5
-                    * DEBUG 	10
-                    * INFO 	20
-                    * SUCCESS 	25
-                    * WARNING 	30
-                    * ERROR 	40
-                    * CRITICAL 	50
+                    - NONE      0
+                    - TRACE 	5
+                    - DEBUG 	10
+                    - INFO 	20
+                    - SUCCESS 	25
+                    - WARNING 	30
+                    - ERROR 	40
+                    - CRITICAL 	50
                 Default: `INFO`
         """
         super().__init__()
@@ -493,14 +493,14 @@ class Unfreeze(_base.Operation):
         log :
             Severity level for logging object's actions.
             Available levels of logging:
-                * NONE      0
-                * TRACE 	5
-                * DEBUG 	10
-                * INFO 	20
-                * SUCCESS 	25
-                * WARNING 	30
-                * ERROR 	40
-                * CRITICAL 	50
+                - NONE      0
+                - TRACE 	5
+                - DEBUG 	10
+                - INFO 	20
+                - SUCCESS 	25
+                - WARNING 	30
+                - ERROR 	40
+                - CRITICAL 	50
             Default: `INFO`
 
 
@@ -521,14 +521,14 @@ class Unfreeze(_base.Operation):
             log :
                 Severity level for logging object's actions.
                 Available levels of logging:
-                    * NONE      0
-                    * TRACE 	5
-                    * DEBUG 	10
-                    * INFO 	20
-                    * SUCCESS 	25
-                    * WARNING 	30
-                    * ERROR 	40
-                    * CRITICAL 	50
+                    - NONE      0
+                    - TRACE 	5
+                    - DEBUG 	10
+                    - INFO 	20
+                    - SUCCESS 	25
+                    - WARNING 	30
+                    - ERROR 	40
+                    - CRITICAL 	50
                 Default: `INFO`
         """
         super().__init__()
@@ -578,14 +578,14 @@ class Log(_base.Operation):
         log :
             Severity level for logging object's actions.
             Available levels of logging:
-                * NONE      0
-                * TRACE 	5
-                * DEBUG 	10
-                * INFO 	20
-                * SUCCESS 	25
-                * WARNING 	30
-                * ERROR 	40
-                * CRITICAL 	50
+                - NONE      0
+                - TRACE 	5
+                - DEBUG 	10
+                - INFO 	20
+                - SUCCESS 	25
+                - WARNING 	30
+                - ERROR 	40
+                - CRITICAL 	50
             Default: `INFO`
 
     Arguments:
@@ -608,14 +608,14 @@ class Log(_base.Operation):
             log :
                 Severity level for logging object's actions.
                 Available levels of logging:
-                    * NONE      0
-                    * TRACE 	5
-                    * DEBUG 	10
-                    * INFO 	20
-                    * SUCCESS 	25
-                    * WARNING 	30
-                    * ERROR 	40
-                    * CRITICAL 	50
+                    - NONE      0
+                    - TRACE 	5
+                    - DEBUG 	10
+                    - INFO 	20
+                    - SUCCESS 	25
+                    - WARNING 	30
+                    - ERROR 	40
+                    - CRITICAL 	50
                 Default: `INFO`
         """
         super().__init__()

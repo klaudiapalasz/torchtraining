@@ -159,14 +159,14 @@ class DataLoader(torch.utils.data.DataLoader):
     specify `sampler` or `batch_sampler`).
 
     Attributes:
-        dataset: torch.utils.data.Dataset
+        dataset:
             Dataset from which to load the data.
-        batch_size: int, optional
+        batch_size:
             How many samples per batch to load. Default: ``1``
-        shuffle: bool, optional
+        shuffle:
             Set to ``True`` to have the data reshuffled at every epoch.
             Default: ``False``
-        num_workers: int, optional
+        num_workers:
             How many subprocesses to use for data loading.
             ``0`` means that the data will be loaded in the main process.
             Default: ``0``
@@ -174,19 +174,19 @@ class DataLoader(torch.utils.data.DataLoader):
             Merges a list of samples to form a mini-batch of Tensor(s).
             Used when using batched loading from a map-style dataset.
             Default: `None` (default PyTorch collation)
-        pin_memory: bool, optional
+        pin_memory:
             If ``True``, the data loader will copy `torch.Tensors`
             into CUDA pinned memory before returning them. Default: `False`
-        drop_last: bool, optional
+        drop_last:
             Set to ``True`` to drop the last incomplete batch,
             if the dataset size is not divisible by the batch size. If ``False`` and
             the size of dataset is not divisible by the batch size, then the last batch
             will be smaller. Default: ``False``
-        timeout: Numeric, optional
+        timeout:
             If positive, the timeout value for collecting a batch
             from workers. Should always be non-negative.
             Default: ``0``
-        worker_init_fn: Callable, optional
+        worker_init_fn:
             If not ``None``, this will be called on each
             worker subprocess with the worker id (an int in ``[0, num_workers - 1]``) as
             input, after seeding and before data loading.
@@ -212,7 +212,6 @@ class DataLoader(torch.utils.data.DataLoader):
         """Initialize `DataLoader` object.
         
         Arguments:
-        
             dataset:
                 Dataset from which to load the data.
             batch_size: 
@@ -289,7 +288,7 @@ class AllReduce(Operation):
             automatically. Default: `None` (automatic generation)
 
     Returns:
-        torch.Tensor
+        torch.Tensor:
             Tensor with the same shape as `data` averaged (`reduction="mean"`) or
             summed (`reduction="sum"`) across all processes.
 
@@ -319,7 +318,7 @@ class AllReduce(Operation):
     def forward(self, data):
         """
         Arguments:  
-            data: torch.Tensor:
+            data:
                 Tensor to be reduced
         """
         return hvd.allreduce(
@@ -373,7 +372,7 @@ class AsyncAllReduce(Operation):
     def forward(self, data):
         """
         Arguments:
-            data: torch.Tensor:
+            data:
                 Tensor to be reduced across all processes.
         """
         return hvd.allreduce_async(data, name=self.name, op=self.reduction)
@@ -413,7 +412,7 @@ class AllGather(Operation):
     def forward(self, data):
         """
         Arguments:
-            data: torch.Tensor:
+            data:
                 Tensor to be gathered across all processes.
         """
         return hvd.allgather(data, name=self.name)
@@ -450,7 +449,7 @@ class AsyncAllGather(Operation):
     def forward(self, data):
         """
         Arguments:
-            data: torch.Tensor:
+            data:
                 Tensor to be gathered across all processes.
         """
         return hvd.allgather_async(data, name=self.name,)
@@ -491,7 +490,7 @@ class Broadcast(Operation):
     def forward(self, data):
         """
         Arguments:
-            data: torch.Tensor:
+            data:
                 Tensor to be broadcasted across all processes.
         """
         return hvd.broadcast(data, self.rank, name=self.name)
@@ -529,7 +528,7 @@ class AsyncBroadcast(Operation):
     def forward(self, data):
         """
         Arguments:
-            data: torch.Tensor:
+            data:
                 Tensor to be broadcasted across all processes.
         """
         return hvd.async_broadcast(data, self.rank, name=self.name)
@@ -547,11 +546,10 @@ class Synchronize(Operation):
 
     def forward(self, handle):
         """
-        Arguments
-        ---------
-        handle: Handle
-            Handle returned by an `AsyncAllReduce`, `AsyncAllGather`or
-            `AsyncBroadcast` which will be used to retrieve `torch.Tensor`.
+        Arguments:
+            handle:
+                Handle returned by an `AsyncAllReduce`, `AsyncAllGather`or
+                `AsyncBroadcast` which will be used to retrieve `torch.Tensor`.
         """
         return hvd.synchronize(handle)
 
@@ -642,7 +640,7 @@ def load(f, rank: int = 0, map_location=None, pickle_module=pickle, **pickle_loa
             and :func:`pickle_module.Unpickler`, e.g., :attr:`errors=...`.
 
     Returns:
-        torch.Tensor: | torch.nn.Module | Any
+        torch.Tensor:
         Anything you saved with `torch.save` really
 
     """

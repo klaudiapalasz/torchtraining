@@ -32,11 +32,11 @@ class Epoch(_base.Epoch):
 
 
     Attributes:
-        iterations : Iterable[torchtraining.iterations.Iteration]
+        iterations :
             Iterations to be run one after another during single loop pass.
-        epochs : int
-            **Keyword only argument** specifying number of epochs to run.
-        log : str | int, optional
+        epochs :
+            __Keyword only argument__ specifying number of epochs to run.
+        log :
             Severity level for logging object's actions.
             Available levels of logging:
                 - NONE      0
@@ -59,7 +59,7 @@ class Epoch(_base.Epoch):
             iterations : 
                     Iterations to be run one after another during single loop pass.
             epochs :
-                    **Keyword only argument** specifying number of epochs to run.
+                    __Keyword only argument__ specifying number of epochs to run.
             log : 
                     Severity level for logging object's actions.
                     Available levels of logging:

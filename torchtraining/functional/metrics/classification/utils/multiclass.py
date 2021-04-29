@@ -11,9 +11,9 @@ def dimensions_number_check(output: torch.Tensor, target: torch.Tensor) -> None:
     or logits.
 
     Arguments:
-        output : torch.Tensor:
+        output : 
             Usually neural network output
-        target : torch.Tensor:
+        target :
             Usually desired target
 
     """
@@ -31,9 +31,9 @@ def shape_check(output: torch.Tensor, target: torch.Tensor) -> None:
     Validate output and target shapes (except last dimension).
 
     Arguments:
-        output : torch.Tensor:
+        output :
             Usually neural network output
-        target : torch.Tensor:
+        target :
             Usually desired target
 
     """
@@ -53,9 +53,9 @@ def check(output: torch.Tensor, target: torch.Tensor) -> None:
     Run all multiclass checks.
 
     Arguments:
-        output : torch.Tensor:
+        output :
             Usually neural network output
-        target : torch.Tensor:
+        target :
             Usually desired target
 
     """
@@ -73,9 +73,9 @@ def categorical(
     (as it is already a categorical).
 
     Arguments:
-        output : torch.Tensor:
+        output :
             Usually neural network output
-        target : torch.Tensor:
+        target :
             Usually desired target
 
     Returns:
@@ -95,9 +95,9 @@ def one_hot(
     Both will be transformed to categorical beforehand
 
     Arguments:
-        output : torch.Tensor:
+        output :
             Usually neural network output
-        target : torch.Tensor:
+        target :
             Usually desired target
 
     Returns:

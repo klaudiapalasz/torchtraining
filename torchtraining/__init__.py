@@ -483,7 +483,7 @@ class IfElse(Operation):
                 Operation or callable getting single argument (`data`) and returning anything.
             operation2: 
                 Operation or callable getting single argument (`data`) and returning anything.
-    """
+        """
         super().__init__()
         self.condition = condition
         self.operation1 = operation1

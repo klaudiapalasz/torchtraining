@@ -14,7 +14,9 @@ from ._base import Operation
 
 
 def _docstring(klass) -> str:
-    klass.__doc__ = """Cast `torch.Tensor` instance to {cast}.
+    klass.__doc__ =
+"""
+Cast `torch.Tensor` instance to {cast}.
 
 !!!note
 
@@ -34,7 +36,8 @@ Returns:
 
 
 def _forward_docstring(function):
-    function.__doc__ = """
+    function.__doc__ = 
+    """
     Arguments:
         data:
             Tensor to be casted
@@ -155,7 +158,7 @@ class MKLDNN(Operation):
 class Sparse(Operation):
     """Cast `torch.Tensor` to sparse format.
 
-    Arguments:
+    Attributes:
         sparse_dims:
             The number of sparse dimensions to include in the new sparse tensor.
             Default: `None`.
@@ -163,6 +166,13 @@ class Sparse(Operation):
     """
 
     def __init__(self, sparse_dims=None):
+        """Initialize `Sparse` object.
+        
+        Arguments:
+            sparse_dims:
+                The number of sparse dimensions to include in the new sparse tensor.
+                Default: `None`.
+        """
         super().__init__()
         self.sparse_dims = sparse_dims
 
@@ -175,13 +185,18 @@ class Sparse(Operation):
 class As(Operation):
     """Cast `torch.Tensor` to the same type as `other`.
 
-    Arguments:
+    Attributes:
         other: 
             Tensor according to which incoming tensor will be casted.
-
     """
 
     def __init__(self, other):
+        """Initialize `As` object.
+        
+        Arguments:
+            other: 
+                Tensor according to which incoming tensor will be casted.
+        """
         super().__init__()
         self.other = other
 

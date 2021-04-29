@@ -12,9 +12,9 @@ def check(output: torch.Tensor, target: torch.Tensor) -> None:
     ValueError is raised otherwise
 
     Arguments:
-        output : torch.Tensor:
+        output :
             Usually neural network output
-        target : torch.Tensor:
+        target :
             Usually desired target
 
     """
@@ -37,11 +37,11 @@ def threshold(
     it should be `0.5`
 
     Arguments:
-        output : torch.Tensor:
+        output :
             Usually neural network output
-        target : torch.Tensor:
+        target :
             Usually desired target
-        threshold : float
+        threshold :
             Value at which `output`will be thresholded
 
     Returns:

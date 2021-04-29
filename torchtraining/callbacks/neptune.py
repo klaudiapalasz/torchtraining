@@ -1,4 +1,4 @@
-"""Integrate `torchtraining` with `neptune.ai <https://neptune.ai/>`__ experiment management tool.
+"""Integrate `torchtraining` with `neptune.ai [here](https://neptune.ai/) experiment management tool.
 
 !!!note
 
@@ -248,8 +248,8 @@ class Image(_NeptuneOperation):
             Default: `None`
 
         Returns:
-        data
-            Data without any modification
+            data
+                Data without any modification
 
     """
 
@@ -290,24 +290,23 @@ class Image(_NeptuneOperation):
 
     def forward(self, data):
         """
-        Arguments
-        ---------
-        data: PIL image | matplotlib.figure.Figure | str | np.array
-            Can be one of:
-            * :obj:`PIL image`
-              `Pillow docs [here](https://pillow.readthedocs.io/en/latest/reference/Image.html#image-module)
-            * :obj:`matplotlib.figure.Figure`
-              `Matplotlib 3.1.1 docs [here](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html)
-            * :obj:`str` - path to image file
-            * 2-dimensional :obj:`numpy.array` - interpreted as grayscale image
-            * 3-dimensional :obj:`numpy.array` - behavior depends on last dimension
+        Arguments:
+             data: 
+                Can be one of:
+                * :obj:`PIL image`
+                  `Pillow docs [here](https://pillow.readthedocs.io/en/latest/reference/Image.html#image-module)
+                * :obj:`matplotlib.figure.Figure`
+                  `Matplotlib 3.1.1 docs [here](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html)
+                * :obj:`str` - path to image file
+                * 2-dimensional :obj:`numpy.array` - interpreted as grayscale image
+                * 3-dimensional :obj:`numpy.array` - behavior depends on last dimension
 
-                * if last dimension is 1 - interpreted as grayscale image
-                * if last dimension is 3 - interpreted as RGB image
-                * if last dimension is 4 - interpreted as RGBA image
+                    * if last dimension is 1 - interpreted as grayscale image
+                    * if last dimension is 3 - interpreted as RGB image
+                    * if last dimension is 4 - interpreted as RGBA image
 
-            You may need to `transpose` and  transform PyTorch `tensors` to
-            fit the above format.
+                You may need to `transpose` and  transform PyTorch `tensors` to
+                fit the above format.
 
         """
         self._method(
@@ -358,7 +357,7 @@ class Scalar(_NeptuneOperation):
             Default: `None`
 
     Returns:
-        data
+        data:
             Data without any modification
 
     """
@@ -462,7 +461,7 @@ class Text(_NeptuneOperation):
     def forward(self, data):
         """
         Arguments:
-            data: str
+            data: 
                 Text to be logged
         """
         self._method(self.log_name, data, None, self.timestamp)

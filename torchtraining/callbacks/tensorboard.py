@@ -55,16 +55,16 @@ Can be used similarly to `torchtraining.callbacks.Logger`
         docstring += 
     """
     Arguments:
-        writer: torch.utils.tensorboard.SummaryWriter
+        writer:
             Writer responsible for logging values.
-        name: str
+        name:
             Name (tag) under which values will be logged into Tensorboard.
             Can be "/" separated to group values together, e.g. "Classifier/Loss"
             and "Classifier/Accuracy"
-        flush: int
+        flush:
             Flushes the event file to disk after `flush` steps.
             Call this method to make sure that all pending events have been written to disk.
-        log : str | int, optional
+        log :
             Severity level for logging object's actions.
             Available levels of logging:
                 - NONE          0

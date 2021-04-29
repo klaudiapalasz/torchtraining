@@ -14,7 +14,7 @@ from . import functional
 class BinaryFocal(_Loss):
     """Binary focal loss working with raw output from network (logits).
 
-    See original research paper: `Focal Loss for Dense Object Detection <https://arxiv.org/abs/1708.02002>`__
+    See original research paper: `Focal Loss for Dense Object Detection [here](https://arxiv.org/abs/1708.02002)
 
     Underplays loss of easy examples while leaving loss of harder examples
     for neural network mostly intact (dampened way less).
@@ -347,9 +347,9 @@ class SmoothBinaryCrossEntropy(_Loss):
     def forward(self, outputs: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
         """
         Arguments:
-            outputs: torch.Tensor
+            outputs:
                 :math:`(N, *)` where :math:`*` means, any number of additional dimensions
-            targets: torch.Tensor
+            targets:
                 :math:`(N, *)`, same shape as the input
 
         Returns:
